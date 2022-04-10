@@ -16,6 +16,7 @@ Including another URLconf
 
 
 from django.contrib import admin
+from django.contrib.auth.views import LoginView
 from django.urls import path
 
 from track import views
@@ -31,5 +32,16 @@ urlpatterns = [
 
     #signup urls
     path('nursesignup', views.nurse_signup_view, name='nursesignup'),
+
+    path('login', views.afterlogin_view, name='login'),
+    path('admin-dashboard', views.admin_dashboard_view, name='admin-dashboard'),
+    path('patient-dashboard/<int:id>', views.patient_dashboard, name='patient-dashboard'),
+    path('nurse-dashboard', views.nurse_dashboard, name='nurse-dashboard'),
+
+    path('login', views.afterlogin_view, name='login'),
+    path('nurselogin', LoginView.as_view(template_name='loginPage.html')),
+
+    path('afterlogin', views.afterlogin_view, name='afterlogin'),
+
 
 ]

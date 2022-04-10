@@ -56,3 +56,36 @@ def nurse_signup_view(request):
             my_nurse_group[0].user_set.add(user)
         return HttpResponseRedirect('nurselogin')
     return render(request, 'nursesignup.html', context=mydict)
+
+
+
+def is_nurse(user):
+    return user.groups.filter(name='NURSE').exists()
+
+
+
+
+def afterlogin_view(request):
+    if request.user.is_authenticated == False:
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = auth.authenticate(username=username, password=password)
+            if user is not None and user.groups.filter(name='NURSE').exists():
+                auth.login(request, user)
+                return redirect('nurse-dashboard')
+        else:
+            return render(request, 'loginPage.html')
+    else:
+        if request.user.groups.filter(name='NURSE'):
+            return redirect('nurse-dashboard')
+
+# @login_required(login_url='nurselogin')
+@user_passes_test(is_nurse)
+def nurse_dashboard(request):
+    mydict = {
+    }
+    return render(request, 'nurse_dashboard.html', context=mydict)
+
+
+

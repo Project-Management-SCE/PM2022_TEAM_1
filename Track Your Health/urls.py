@@ -39,9 +39,13 @@ urlpatterns = [
 
     path('login', views.afterlogin_view, name='login'),
     path('nurselogin', LoginView.as_view(template_name='loginPage.html')),
+    path('patientlogin', LoginView.as_view(template_name='loginPage.html')),
 
     path('afterlogin', views.afterlogin_view, name='afterlogin'),
     path('patientsignup', views.patient_signup_view),
+        path('patient-dashboard/<int:id>', views.patient_dashboard, name='patient-dashboard'),
+
+    
 
 
 ]

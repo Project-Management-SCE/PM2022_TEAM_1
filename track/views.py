@@ -96,11 +96,17 @@ def afterlogin_view(request):
             if user is not None and user.groups.filter(name='NURSE').exists():
                 auth.login(request, user)
                 return redirect('nurse-dashboard')
+            elif user is not None and user.groups.filter(name='PATIENT').exists():
+                auth.login(request, user)
+                return redirect('patient-dashboard',id=user.id)    
         else:
             return render(request, 'loginPage.html')
     else:
         if request.user.groups.filter(name='NURSE'):
             return redirect('nurse-dashboard')
+        if request.user.groups.filter(name='PATIENT'):
+            return redirect('patient-dashboard',id=request.user.id)
+
 
 # @login_required(login_url='nurselogin')
 @user_passes_test(is_nurse)

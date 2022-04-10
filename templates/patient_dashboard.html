@@ -1,0 +1,31 @@
+{% extends 'patient_base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+    </div>
+    <table class="table table-hover" id="dev-table">
+      <thead>
+
+          <th>Name</th>
+          <br>
+          <th>Urine surgery</th><td> {{user.Urine_surgery}}</td>
+          <th>Blood Pressure</th>
+          <th>Fats</th>
+          <th>Cholesterol</th>
+          <th>Liver function</th>
+          <th>Kidney function</th>
+          <th>Add to food list</th>
+      </thead>
+
+        <td> {{user.first_name}}</td>
+        <td> {{user.Urine_surgery}}</td>
+        <td> {{user.Blood_Pressure}}</td>
+        <td> {{user.Fats}}</td>
+        <td> {{user.Cholesterol}}</td>
+        <td> {{user.Liver_function}}</td>
+        <td> {{user.Kidney_function}}</td>
+</div>
+
+{% endblock content %}

@@ -18,6 +18,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from track import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home_view, name=''),
+
+    path('adminclick', views.adminclick_view),
+    path('nurseclick', views.nurseclick_view),
+    path('patientclick', views.patientclick_view),
+
+
+    #signup urls
+    path('nursesignup', views.nurse_signup_view, name='nursesignup'),
+
 ]

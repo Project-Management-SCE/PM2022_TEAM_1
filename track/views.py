@@ -187,7 +187,26 @@ def admin_add_nurse(request):
         return HttpResponseRedirect('/admin-nurse')
     return render(request, 'admin_add_nurse.html', context=mydict)
 
-
-
-
+# @login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_add_patient(request):
+    userForm = forms.PatientUserForm()
+    patientForm = forms.PatientForm()
+    mydict = {'userForm': userForm, 'patientForm': patientForm}
+    if request.method == 'POST':
+        userForm = forms.PatientUserForm(request.POST)
+        patientForm = forms.PatientForm(request.POST, request.FILES)
+        print(userForm.is_valid())
+        print(patientForm.is_valid())
+        if userForm.is_valid() and patientForm.is_valid():
+            user = userForm.save()
+            user.set_password(user.password)
+            user.save()
+            patient = patientForm.save(commit=False)
+            patient.user = user
+            patient.save()
+            my_patient_group = Group.objects.get_or_create(name='PATIENT')
+            my_patient_group[0].user_set.add(user)
+        return HttpResponseRedirect('/admin-view-patient')
+    return render(request, 'admin_add_patient.html', context=mydict)
 

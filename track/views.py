@@ -188,3 +188,6 @@ def admin_add_nurse(request):
     return render(request, 'admin_add_nurse.html', context=mydict)
 
 
+
+
+

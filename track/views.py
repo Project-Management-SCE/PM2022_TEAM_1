@@ -153,3 +153,6 @@ def admin_view_patient_view(request):
     return render(request, 'admin_view_patient.html', {'patients': patients})
 
 
+
+
+

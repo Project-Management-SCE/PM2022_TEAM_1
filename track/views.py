@@ -115,6 +115,15 @@ def nurse_dashboard(request):
     }
     return render(request, 'nurse_dashboard.html', context=mydict)
 
+@user_passes_test(is_patient)
+def patient_dashboard(request,id):
+    mydict={}
+    user = models.User.objects.get(pk=request.user.pk)
+    for i in models.Patient.objects.all():
+        if i.user.id==user.id:
+            mydict['user']=i
+    return render(request, 'patient_dashboard.html', context=mydict)
+
 
 
 

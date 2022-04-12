@@ -31,12 +31,16 @@ urlpatterns = [
 
 
     #signup urls
+    path('adminlogin', LoginView.as_view(template_name='loginPage.html')),
+
     path('nursesignup', views.nurse_signup_view, name='nursesignup'),
 
     path('login', views.afterlogin_view, name='login'),
  
     path('nurse-dashboard', views.nurse_dashboard, name='nurse-dashboard'),
+    path('admin-dashboard', views.admin_page, name='admin-dashboard'),
 
+    path('adminlogin', LoginView.as_view(template_name='loginPage.html')),
     path('nurselogin', LoginView.as_view(template_name='loginPage.html')),
     path('patientlogin', LoginView.as_view(template_name='loginPage.html')),
 

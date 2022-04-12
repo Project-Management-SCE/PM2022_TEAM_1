@@ -124,3 +124,17 @@ def patient_dashboard(request):
         if i.user.id == user.id:
             mydict['user'] = i
     return render(request, 'patient_dashboard.html', context=mydict)
+<<<<<<< HEAD
+=======
+
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+
+
+
+
+
+
+
+>>>>>>> b03908dcb8cfa1e42e9a82e32eb76e58b417e26e

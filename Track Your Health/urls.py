@@ -44,5 +44,7 @@ urlpatterns = [
     path('patientsignup', views.patient_signup_view),
     path('patient-dashboard', views.patient_dashboard, name='patient-dashboard'),
 
+        path('patient-dashboard/<int:id>', views.patient_dashboard, name='patient-dashboard'),
+    path('logout', views.logoutUser, name='logout'),
 
 ]

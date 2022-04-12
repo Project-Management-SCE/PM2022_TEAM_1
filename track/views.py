@@ -12,33 +12,40 @@ from django.shortcuts import get_object_or_404
 
 
 def home_view(request):
-    if request.user.is_authenticated:           #check if the user is authenticated
+    if request.user.is_authenticated:  # check if the user is authenticated
         return HttpResponseRedirect('afterlogin')
-    return render(request, 'index.html')        #home page
-
+    return render(request, 'index.html')  # home page
 
 
 def adminclick_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')       #after login for the admin
+        return HttpResponseRedirect('afterlogin')  # after login for the admin
     return render(request, 'adminclick.html')
+
 
 def nurseclick_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')       #after login for the nurse
+        return HttpResponseRedirect('afterlogin')  # after login for the nurse
     return render(request, 'nurseclick.html')
 
 
 # for showing signup/login button for patient(by sumit)
 def patientclick_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')   #after login for the patient
+        return HttpResponseRedirect('afterlogin')  # after login for the patient
     return render(request, 'patientclick.html')
 
+#check the type of the user
+def is_admin(user):
+    return user.is_staff
 
-#nurse signup
+@user_passes_test(is_admin)
+def admin_page(request):
+    return render(request, 'adminPage.html')
+
+
+# nurse signup
 def nurse_signup_view(request):
-
     userForm = forms.NurseUserForm()
     nurseForm = forms.NurseForm()
     mydict = {'userForm': userForm, 'nurseForm': nurseForm}
@@ -58,12 +65,11 @@ def nurse_signup_view(request):
     return render(request, 'nursesignup.html', context=mydict)
 
 
-
 def is_nurse(user):
     return user.groups.filter(name='NURSE').exists()
 
 
-#patient signup
+# patient signup
 def patient_signup_view(request):
     userForm = forms.PatientUserForm()
     patientForm = forms.PatientForm()
@@ -85,27 +91,30 @@ def patient_signup_view(request):
     return render(request, 'patientsignup.html', context=mydict)
 
 
-
-
 def afterlogin_view(request):
     if request.user.is_authenticated == False:
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
-            if user is not None and user.groups.filter(name='NURSE').exists():
+            if user.is_staff:
+                auth.login(request, user)
+                return redirect('admin-dashboard')
+            elif user is not None and user.groups.filter(name='NURSE').exists():
                 auth.login(request, user)
                 return redirect('nurse-dashboard')
             elif user is not None and user.groups.filter(name='PATIENT').exists():
                 auth.login(request, user)
-                return redirect('patient-dashboard',id=user.id)    
+                return redirect('patient-dashboard')
         else:
             return render(request, 'loginPage.html')
     else:
+        if request.user.is_staff:
+            return redirect('admin-dashboard')
         if request.user.groups.filter(name='NURSE'):
             return redirect('nurse-dashboard')
         if request.user.groups.filter(name='PATIENT'):
-            return redirect('patient-dashboard',id=request.user.id)
+            return redirect('patient-dashboard')
 
 
 # @login_required(login_url='nurselogin')
@@ -119,18 +128,28 @@ def nurse_dashboard(request):
 def is_patient(user):
     return user.groups.filter(name='PATIENT').exists()
 
+
 @user_passes_test(is_patient)
-def patient_dashboard(request,id):
-    mydict={}
+def patient_dashboard(request):
+    mydict = {}
     user = models.User.objects.get(pk=request.user.pk)
     for i in models.Patient.objects.all():
-        if i.user.id==user.id:
-            mydict['user']=i
+        if i.user.id == user.id:
+            mydict['user'] = i
     return render(request, 'patient_dashboard.html', context=mydict)
 
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
 
 
+@user_passes_test(is_admin)
+def admin_patient_view(request):
+    return render(request, 'admin_patient.html')
 
-
+@user_passes_test(is_admin)
+def admin_view_patient_view(request):
+    patients = models.Patient.objects.all()
+    return render(request, 'admin_view_patient.html', {'patients': patients})
 
 

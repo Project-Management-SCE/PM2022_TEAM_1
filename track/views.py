@@ -143,3 +143,13 @@ def logoutUser(request):
     return redirect('login')
 
 
+@user_passes_test(is_admin)
+def admin_patient_view(request):
+    return render(request, 'admin_patient.html')
+
+@user_passes_test(is_admin)
+def admin_view_patient_view(request):
+    patients = models.Patient.objects.all()
+    return render(request, 'admin_view_patient.html', {'patients': patients})
+
+

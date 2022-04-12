@@ -35,6 +35,14 @@ def patientclick_view(request):
         return HttpResponseRedirect('afterlogin')  # after login for the patient
     return render(request, 'patientclick.html')
 
+#check the type of the user
+def is_admin(user):
+    return user.is_staff
+
+@user_passes_test(is_admin)
+def admin_page(request):
+    return render(request, 'adminPage.html')
+
 
 # nurse signup
 def nurse_signup_view(request):
@@ -89,7 +97,10 @@ def afterlogin_view(request):
             username = request.POST['username']
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
-            if user is not None and user.groups.filter(name='NURSE').exists():
+            if user.is_staff:
+                auth.login(request, user)
+                return redirect('admin-dashboard')
+            elif user is not None and user.groups.filter(name='NURSE').exists():
                 auth.login(request, user)
                 return redirect('nurse-dashboard')
             elif user is not None and user.groups.filter(name='PATIENT').exists():
@@ -98,6 +109,8 @@ def afterlogin_view(request):
         else:
             return render(request, 'loginPage.html')
     else:
+        if request.user.is_staff:
+            return redirect('admin-dashboard')
         if request.user.groups.filter(name='NURSE'):
             return redirect('nurse-dashboard')
         if request.user.groups.filter(name='PATIENT'):
@@ -124,17 +137,9 @@ def patient_dashboard(request):
         if i.user.id == user.id:
             mydict['user'] = i
     return render(request, 'patient_dashboard.html', context=mydict)
-<<<<<<< HEAD
-=======
 
 def logoutUser(request):
     logout(request)
     return redirect('login')
 
 
-
-
-
-
-
->>>>>>> b03908dcb8cfa1e42e9a82e32eb76e58b417e26e

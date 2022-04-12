@@ -152,4 +152,32 @@ def admin_view_patient_view(request):
     patients = models.Patient.objects.all()
     return render(request, 'admin_view_patient.html', {'patients': patients})
 
+@user_passes_test(is_admin)
+def admin_nurse_view(request):
+    return render(request, 'admin_nurse.html')
+
+
+@user_passes_test(is_admin)
+def admin_add_nurse(request):
+    userForm = forms.NurseUserForm()
+    nurseForm = forms.NurseForm()
+    mydict = {'userForm': userForm, 'nurseForm': nurseForm}
+    if request.method == 'POST':
+        print("add nurse")
+        userForm = forms.NurseUserForm(request.POST)
+        nurseForm = forms.NurseForm(request.POST, request.FILES)
+        print(userForm.is_valid())
+        print(nurseForm.is_valid())
+        if userForm.is_valid() and nurseForm.is_valid():
+            user = userForm.save()
+            user.set_password(user.password)
+            user.save()
+            nurse = nurseForm.save(commit=False)
+            nurse.user = user
+            nurse.save()
+            my_nurse_group = Group.objects.get_or_create(name='NURSE')
+            my_nurse_group[0].user_set.add(user)
+        return HttpResponseRedirect('/admin-nurse')
+    return render(request, 'admin_add_nurse.html', context=mydict)
+
 

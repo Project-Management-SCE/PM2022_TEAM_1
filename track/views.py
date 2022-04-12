@@ -128,6 +128,10 @@ def patient_dashboard(request,id):
             mydict['user']=i
     return render(request, 'patient_dashboard.html', context=mydict)
 
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+
 
 
 

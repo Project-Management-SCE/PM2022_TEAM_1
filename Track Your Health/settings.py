@@ -55,6 +55,8 @@ ROOT_URLCONF = 'Track Your Health.urls'
 
 LOGIN_REDIRECT_URL ='/'
 
+LOGIN_URL = '/account/login/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

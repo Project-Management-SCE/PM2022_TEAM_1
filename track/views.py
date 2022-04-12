@@ -115,6 +115,7 @@ def nurse_dashboard(request):
     }
     return render(request, 'nurse_dashboard.html', context=mydict)
 
+
 @user_passes_test(is_patient)
 def patient_dashboard(request,id):
     mydict={}
@@ -123,6 +124,9 @@ def patient_dashboard(request,id):
         if i.user.id==user.id:
             mydict['user']=i
     return render(request, 'patient_dashboard.html', context=mydict)
+
+def is_patient(user):
+    return user.groups.filter(name='PATIENT').exists()
 
 
 

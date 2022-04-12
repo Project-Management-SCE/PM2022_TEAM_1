@@ -88,4 +88,8 @@ def nurse_dashboard(request):
     return render(request, 'nurse_dashboard.html', context=mydict)
 
 
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+
 

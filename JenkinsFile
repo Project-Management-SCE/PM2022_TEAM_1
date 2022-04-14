@@ -1,7 +1,20 @@
 
 pipeline {
     agent none
+    stages {
 
+        stage('Build') {
+            agent {
+                docker {
+                    image 'salemgu/django_todo'
+                }
+            }
+            steps {
+		            withEnv(["HOME=${env.WORKSPACE}"]) {
+		               sh 'pip install -r requirements.txt'
+					}
+			}
+        }
         stage(' Unit Tests') {
             agent {
                 docker {
@@ -14,5 +27,17 @@ pipeline {
 		      }
 			}
         }
-
+        stage(' integration-test') {
+            agent {
+                docker {
+                    image 'salemgu/django_todo'
+                }
+            }
+            steps {
+		            withEnv(["HOME=${env.WORKSPACE}"]) {
+                sh 'python manage.py test'
+		      }
+			}
+        }
+	}
 }

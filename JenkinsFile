@@ -6,7 +6,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'salemgu/django_todo'
+                    image 'python:3.7'
                 }
             }
             steps {
@@ -18,7 +18,7 @@ pipeline {
         stage(' Unit Tests') {
             agent {
                 docker {
-                    image 'salemgu/django_todo'
+                    image 'python:3.7'
                 }
             }
             steps {
@@ -30,7 +30,7 @@ pipeline {
         stage(' integration-test') {
             agent {
                 docker {
-                    image 'salemgu/django_todo'
+                    image 'python:3.7'
                 }
             }
             steps {

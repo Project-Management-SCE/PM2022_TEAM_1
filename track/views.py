@@ -124,6 +124,10 @@ def nurse_dashboard(request):
     }
     return render(request, 'nurse_dashboard.html', context=mydict)
 
+def is_patient(user):
+    return user.groups.filter(name='PATIENT').exists()
+
+
 
 def is_patient(user):
     return user.groups.filter(name='PATIENT').exists()
@@ -137,6 +141,8 @@ def patient_dashboard(request):
         if i.user.id == user.id:
             mydict['user'] = i
     return render(request, 'patient_dashboard.html', context=mydict)
+
+
 
 def logoutUser(request):
     logout(request)

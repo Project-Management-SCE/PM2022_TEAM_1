@@ -97,15 +97,19 @@ def afterlogin_view(request):
             username = request.POST['username']
             password = request.POST['password']
             user = auth.authenticate(username=username, password=password)
-            if user.is_staff:
-                auth.login(request, user)
-                return redirect('admin-dashboard')
-            elif user is not None and user.groups.filter(name='NURSE').exists():
-                auth.login(request, user)
-                return redirect('nurse-dashboard')
-            elif user is not None and user.groups.filter(name='PATIENT').exists():
-                auth.login(request, user)
-                return redirect('patient-dashboard')
+            if user is not None:
+                if user.is_staff:
+                    auth.login(request, user)
+                    return redirect('admin-dashboard')
+                elif user is not None and user.groups.filter(name='NURSE').exists():
+                    auth.login(request, user)
+                    return redirect('nurse-dashboard')
+                elif user is not None and user.groups.filter(name='PATIENT').exists():
+                    auth.login(request, user)
+                    return redirect('patient-dashboard')
+            else:
+                messages.info(request, 'invalid username or password')
+                return redirect('login')
         else:
             return render(request, 'loginPage.html')
     else:
@@ -169,11 +173,8 @@ def admin_add_nurse(request):
     nurseForm = forms.NurseForm()
     mydict = {'userForm': userForm, 'nurseForm': nurseForm}
     if request.method == 'POST':
-        print("add nurse")
         userForm = forms.NurseUserForm(request.POST)
         nurseForm = forms.NurseForm(request.POST, request.FILES)
-        print(userForm.is_valid())
-        print(nurseForm.is_valid())
         if userForm.is_valid() and nurseForm.is_valid():
             user = userForm.save()
             user.set_password(user.password)

@@ -73,31 +73,31 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
+                {% render_field userForm.first_name class="form-control" placeholder="First Name" minlength=1 %}
               </div>
               <div class="form-group">
-                {% render_field userForm.username class="form-control" placeholder="Username" %}
+                {% render_field userForm.username class="form-control" placeholder="Username" minlength=1 %}
               </div>
               <div class="form-group">
-                {% render_field nurseForm.department class="form-control" placeholder="Department" %}
+                {% render_field nurseForm.department class="form-control" placeholder="Department" minlength=1 %}
               </div>
               <div class="form-group">
-                {% render_field nurseForm.address class="form-control" placeholder="Address" %}
+                {% render_field nurseForm.address class="form-control" placeholder="Address" minlength=1 %}
               </div>
 
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
+                {% render_field userForm.last_name class="form-control" placeholder="Last Name" minlength=1%}
               </div>
               <div class="form-group">
-                {% render_field userForm.password class="form-control" placeholder="Password" %}
+                {% render_field userForm.password class="form-control" placeholder="Password" minlength=3 %}
               </div>
               <div class="form-group">
-                {% render_field nurseForm.mobile class="form-control"  placeholder="Mobile" %}
+                {% render_field nurseForm.mobile class="form-control"  placeholder="Mobile" minlength=1 %}
               </div>
               <div class="form-group">
-                {% render_field nurseForm.profile_pic required="required" class="form-control" placeholder="Profile Picture" %}
+                {% render_field nurseForm.profile_pic required="required" class="form-control" placeholder="Profile Picture" minlength=1 %}
               </div>
 
             </div>

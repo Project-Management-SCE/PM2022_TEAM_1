@@ -210,3 +210,25 @@ def admin_add_patient(request):
         return HttpResponseRedirect('/admin-view-patient')
     return render(request, 'admin_add_patient.html', context=mydict)
 
+@user_passes_test(is_patient)
+def patient_view_food(request):
+    food = models.Food.objects.all()
+    return render(request, 'patient_view_food.html', {'food': food})
+
+def food_list(request,food_id):
+    patient = models.Patient.objects.get(user=request.user)
+    food = models.Food.objects.get(pk=food_id)
+    check = patient.Cholesterol>food.max_Cholesterol or patient.Liver_function>food.max_Liver_function or patient.Kidney_function>food.max_Kidney_function or patient.Blood_Pressure>food.max_Blood_Pressure
+    print(check)
+    if request.user.is_authenticated and not request.user.is_anonymous:
+        food=models.Food.objects.get(pk=food_id)
+        if models.Patient.objects.filter(user=request.user,food_list=food).exists() or check==True:
+            messages.error(request,'\t')
+        elif check!=True:
+            user=models.Patient.objects.get(user=request.user)
+            user.food_list.add(food)
+            messages.success(request,'\t')
+    else:
+        redirect('')
+    return redirect('patient-view-food')
+

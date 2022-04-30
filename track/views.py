@@ -232,3 +232,8 @@ def food_list(request,food_id):
         redirect('')
     return redirect('patient-view-food')
 
+
+@user_passes_test(is_nurse)
+def nurse_view_patient(request):
+    patients = models.Patient.objects.all()
+    return render(request, 'nurse_view_patients.html', {'patients': patients})

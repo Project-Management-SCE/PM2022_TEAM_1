@@ -196,8 +196,6 @@ def admin_add_patient(request):
     if request.method == 'POST':
         userForm = forms.PatientUserForm(request.POST)
         patientForm = forms.PatientForm(request.POST, request.FILES)
-        print(userForm.is_valid())
-        print(patientForm.is_valid())
         if userForm.is_valid() and patientForm.is_valid():
             user = userForm.save()
             user.set_password(user.password)

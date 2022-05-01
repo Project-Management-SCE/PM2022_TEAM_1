@@ -30,7 +30,7 @@ class Patient(models.Model):
     address = models.CharField(max_length=40)
     gender = models.IntegerField(choices=GENDER_CHOICES)
     age = models.IntegerField(default=15)
-    symptoms = models.CharField(max_length=100,null=False)
+    symptoms = models.CharField(max_length=100,null=True)
     assignedDoctorId = models.PositiveIntegerField(null=True)
     profile_pic = models.ImageField(upload_to='profile_pic/PatientProfilePic/', null=True, blank=True)
     admitDate=models.DateField(auto_now=True)

@@ -30,7 +30,7 @@ class Patient(models.Model):
     address = models.CharField(max_length=40)
     gender = models.IntegerField(choices=GENDER_CHOICES)
     age = models.IntegerField(default=15)
-    symptoms = models.CharField(max_length=100,null=False)
+    symptoms = models.CharField(max_length=100,null=True)
     assignedDoctorId = models.PositiveIntegerField(null=True)
     profile_pic = models.ImageField(upload_to='profile_pic/PatientProfilePic/', null=True, blank=True)
     admitDate=models.DateField(auto_now=True)
@@ -70,3 +70,11 @@ class Nurse(models.Model):
         return self.user.id
     def __str__(self):
         return "{} ({})".format(self.user.first_name,self.department)
+
+
+class Feedback(models.Model):
+    date = models.DateField(auto_now=True)
+    by = models.CharField(max_length=40)
+    message = models.CharField(max_length=500)
+    senderType = models.CharField(max_length=40, default="user type")
+    replay = models.CharField(max_length=500, default="Replay")

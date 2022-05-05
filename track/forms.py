@@ -29,3 +29,14 @@ class PatientForm(forms.ModelForm):
     class Meta:
         model=models.Patient
         fields=['address','status','symptoms','profile_pic','gender','age']
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = models.Feedback
+        fields = ['by', 'message','senderType']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 6, 'cols': 30}),
+        }
+
+

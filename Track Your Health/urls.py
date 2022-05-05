@@ -56,5 +56,6 @@ urlpatterns = [
     path('admin-nurse', views.admin_nurse_view, name='admin-nurse'),
     path('admin-add-nurse', views.admin_add_nurse, name='admin-add-nurse'),
     path('admin-add-patient', views.admin_add_patient, name='admin-add-patient'),
-
+    path('nurse-food', views.nurse_food, name='nurse-food'),
+    path('nurse-add-food', views.nurse_add_food, name='nurse-add-food'),
 ]

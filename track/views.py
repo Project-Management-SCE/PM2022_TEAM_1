@@ -210,3 +210,24 @@ def admin_add_patient(request):
         return HttpResponseRedirect('/admin-view-patient')
     return render(request, 'admin_add_patient.html', context=mydict)
 
+@user_passes_test(is_nurse)
+def nurse_food(request):
+    return render(request,'nurse_food.html')
+
+
+@user_passes_test(is_nurse)
+def nurse_add_food(request):
+    if request.method == 'POST':
+
+        food = models.Food()
+        food.Name = request.POST['Name']
+        food.number = request.POST['num']
+        food.max_Cholesterol = request.POST['max_Cholesterol']
+        food.max_Liver_function = request.POST['max_Liver_function']
+        food.max_Kidney_function = request.POST['max_Kidney_function']
+        food.max_Blood_Pressure = request.POST['max_Blood_Pressure']
+        food.pic = request.FILES['pic']
+        food.save()
+        return HttpResponseRedirect('nurse-dashboard')
+    return render(request, 'nurse_add_food.html')
+

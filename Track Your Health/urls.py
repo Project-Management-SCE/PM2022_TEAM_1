@@ -37,6 +37,7 @@ urlpatterns = [
     path('admin-nurse', views.admin_nurse_view, name='admin-nurse'),
     path('admin-add-nurse', views.admin_add_nurse, name='admin-add-nurse'),
     path('admin-add-patient', views.admin_add_patient, name='admin-add-patient'),
+    path('admin-feedbacks', views.admin_feedbacks, name='admin-feedbacks'),
 
     path('nurseclick', views.nurseclick_view),
     path('nurselogin', LoginView.as_view(template_name='loginPage.html')),
@@ -51,8 +52,12 @@ urlpatterns = [
     path('patient-dashboard/<int:id>', views.patient_dashboard, name='patient-dashboard'),
     path('patient-view-food', views.patient_view_food, name='patient-view-food'),
     path('food-favorite/<int:food_id>', views.food_list, name='food-favorite'),
+    path('patient-feedback', views.patient_feedback, name='patient-feedback'),
+    path('show-food-list', views.show_food_list, name='show-food-list'),
+    path('send-replay/<int:pk>', views.admin_replay, name='send-replay'),
 
     path('logout', views.logoutUser, name='logout'),
+
 
 
 

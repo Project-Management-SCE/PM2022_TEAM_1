@@ -146,3 +146,28 @@ class loginTest(TestCase):
         # Assert
         self.assert_(response.status_code, 200)
         self.assertFalse(response.context["user"].is_authenticated)
+
+    class FeedbackTest(TestCase):
+
+        @tag('unit-test')
+        def test_feedback_access_url(self):
+            response = self.client.get('patient-feedback', )
+            self.assertEqual(response.status_code, 200)
+
+        @tag('unit-test')
+        def test_feedback_access_subject(self):
+            response = self.client.get(reverse('patient-feedback'))
+            self.assertEqual(response.status_code, 200)
+
+        @tag('unit-test')
+        def test_feedback_access_url_negative(self):
+            response = self.client.get('/patient-feedback')
+            self.assertNotEqual(response.status_code, 300)
+
+
+
+        @tag('unit-test')
+        def test_view(self):
+            data = {'feedbackContent': 'content', }
+            response = self.client.post(reverse('bugreport'), data=data, follow=True)
+            self.assertEqual(response.status_code, 200)

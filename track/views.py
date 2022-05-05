@@ -235,3 +235,40 @@ def food_list(request,food_id):
 def nurse_view_patient(request):
     patients = models.Patient.objects.all()
     return render(request, 'nurse_view_patients.html', {'patients': patients})
+
+
+@user_passes_test(is_patient)
+def patient_feedback(request):
+    patient = models.Patient.objects.get(user_id=request.user.id)
+    feedback = forms.FeedbackForm()
+    if request.method == 'POST':
+        feedback = forms.FeedbackForm(request.POST)
+        if feedback.is_valid():
+            feedback.save()
+            user=models.Patient.objects.get(user=request.user)
+        else:
+            print("form is invalid")
+        return render(request, 'feedback_for_patient.html', {'patient': patient})
+    return render(request, 'patient_feedback.html', {'feedback': feedback, 'patient': patient})
+
+
+@user_passes_test(is_admin)
+def admin_replay(request,pk):
+    feedback= models.Feedback.objects.all().get(id=pk)
+    if request.method == 'POST':
+        feedback.replay=request.POST['replay']
+        feedback.save()
+    return render(request, 'admin_replay.html')
+
+def show_food_list(request):
+    context=None
+    if request.user.is_authenticated and not request.user.is_anonymous:
+        userInfo=models.Patient.objects.get(user=request.user)
+        food=userInfo.food_list.all()
+        context={'food':food}
+    return render(request,'show_food_list.html',context)
+
+@user_passes_test(is_admin)
+def admin_feedbacks(request):
+    feedback = models.Feedback.objects.all().order_by('-id')
+    return render(request, 'admin_feedbacks.html', {'feedback': feedback})

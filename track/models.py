@@ -70,3 +70,11 @@ class Nurse(models.Model):
         return self.user.id
     def __str__(self):
         return "{} ({})".format(self.user.first_name,self.department)
+
+
+class Feedback(models.Model):
+    date = models.DateField(auto_now=True)
+    by = models.CharField(max_length=40)
+    message = models.CharField(max_length=500)
+    senderType = models.CharField(max_length=40, default="user type")
+    replay = models.CharField(max_length=500, default="Replay")

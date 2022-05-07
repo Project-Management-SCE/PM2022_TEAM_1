@@ -41,12 +41,14 @@
           <th>Liver Function</th>
           <th>Kidney Function</th>
           <th>Gender</th>
+          <th>Medication</th>
+          
         </tr>
       </thead>
 
       {% for d in patients %}
 
-        <td> {{d.first_name}}</td>
+        <td> {{d.user}}</td>
         <td>{{d.age}}</td>
         <td> <img src="{% static d.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <td>{{d.address}}</td>
@@ -57,6 +59,7 @@
         <td>{{d.Liver_function}}</td>
         <td>{{d.Kidney_function}}</td>
         <td>{{d.gender}}</td>
+        <td><a class="btn btn-success btn-sm" href="{% url 'admin-add-medication' d.id  %}"><span class="fa fa-edit"></span></a></td>
       </tr>
       {% endfor %}
     </table>

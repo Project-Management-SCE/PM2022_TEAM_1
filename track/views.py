@@ -215,6 +215,8 @@ def nurse_food(request):
     return render(request,'nurse_food.html')
 
 
+
+
 @user_passes_test(is_nurse)
 def nurse_add_food(request):
     if request.method == 'POST':
@@ -231,3 +233,40 @@ def nurse_add_food(request):
         return HttpResponseRedirect('nurse-dashboard')
     return render(request, 'nurse_add_food.html')
 
+#BSPM2022T1
+@user_passes_test(is_admin)
+def admin_add_medication(request, id_patient):
+     if request.method == 'POST':
+        medication = models.Medication()
+        medication.name = request.POST['name']
+        medication.numOftimes = request.POST['numOftimes']
+        medication.mg = request.POST['mg']
+        medication.expiratDate = request.POST['expiratDate']
+        medication.Description = request.POST['Description']
+        medication.save()
+        # patient = models.Patient.objects.get(id_patient)
+        patient = models.Patient()
+        for i in  models.Patient.objects.all():
+            if i.id==id_patient:
+               patient=i
+        patient.medication_dosages.add(medication)
+        return render(request, 'admin_view_patient.html', context={'patients': models.Patient.objects.all()})
+     return render(request, 'admin_add_medication.html')
+
+
+    # medication = models.Medication.objects.get(id=pk)
+    # for i in  models.Medication.objects.all():
+    #     if i.id==pk:
+    #         medication=i
+    # if request.method == 'POST':
+    #     medication = models.Medication()
+    #     medication.name= request.POST['name']
+    #     medication.numOftimes= request.POST['numOftimes']
+    #     medication.mg = request.POST['mg']
+        # medication.expiratDate = request.POST['expiratDate']
+        # medication.Description = request.POST['Description']
+    #     medication.save()
+    #     return HttpResponseRedirect('admin_view_patient.html')
+    # return render(request, 'admin_add_medication.html')
+    
+  

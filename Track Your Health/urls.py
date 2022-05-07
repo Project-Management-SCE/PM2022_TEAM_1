@@ -58,4 +58,6 @@ urlpatterns = [
     path('admin-add-patient', views.admin_add_patient, name='admin-add-patient'),
     path('nurse-food', views.nurse_food, name='nurse-food'),
     path('nurse-add-food', views.nurse_add_food, name='nurse-add-food'),
+    #BSPM2022T1
+    path('admin-add-medication/<int:id_patient>', views.admin_add_medication, name='admin-add-medication'),
 ]

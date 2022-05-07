@@ -272,3 +272,5 @@ def show_food_list(request):
 def admin_feedbacks(request):
     feedback = models.Feedback.objects.all().order_by('-id')
     return render(request, 'admin_feedbacks.html', {'feedback': feedback})
+
+

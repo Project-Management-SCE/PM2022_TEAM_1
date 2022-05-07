@@ -19,10 +19,14 @@ class Food(models.Model):
     max_Blood_Pressure=models.IntegerField(default=80)
     pic = models.ImageField(upload_to='profile_pic/Food/', null=True, blank=True)
 
+#BSPM2022T1
 class Medication(models.Model):
     name = models.CharField(max_length=255)
-    dosage = models.PositiveIntegerField(default=0)
+    numOftimes = models.PositiveIntegerField(default=0)
     mg=models.PositiveIntegerField(default=0)
+    expiratDate =models.CharField(max_length=50)
+    Description = models.CharField(max_length=3000)
+
 
 
 class Patient(models.Model):
@@ -43,6 +47,7 @@ class Patient(models.Model):
     Kidney_function=models.IntegerField(default=60)
     food_list = models.ManyToManyField(Food)
     medication_dosages = models.ManyToManyField(Medication)
+   
 
     @property
     def get_name(self):

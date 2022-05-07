@@ -39,4 +39,8 @@ class FeedbackForm(forms.ModelForm):
             'message': forms.Textarea(attrs={'rows': 6, 'cols': 30}),
         }
 
+class MedicationForm(forms.ModelForm):
+    class Meta:
+        model=models.Medication 
+        fields=['name','numOftimes','mg','expiratDate','Description']
 

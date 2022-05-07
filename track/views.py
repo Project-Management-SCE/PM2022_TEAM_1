@@ -231,3 +231,19 @@ def nurse_add_food(request):
         return HttpResponseRedirect('nurse-dashboard')
     return render(request, 'nurse_add_food.html')
 
+def updateGlucose(request, id):
+    user = models.User.objects.get(pk=id)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            if request.method == 'POST':
+                i.Glucose = request.POST['Glucose']
+                i.save()
+    return render(request, 'updateGlucose.html')
+
+def profile(request):
+    mydict = {}
+    user = models.User.objects.get(pk=request.user.pk)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            mydict['user'] = i
+    return render(request, 'profile.html', mydict)

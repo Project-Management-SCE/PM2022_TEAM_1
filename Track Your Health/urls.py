@@ -58,4 +58,8 @@ urlpatterns = [
     path('admin-add-patient', views.admin_add_patient, name='admin-add-patient'),
     path('nurse-food', views.nurse_food, name='nurse-food'),
     path('nurse-add-food', views.nurse_add_food, name='nurse-add-food'),
+    path('profile/', views.profile, name='users-profile'),
+    path('update-Glucose/<int:id>', views.updateGlucose, name='update-Glucose'),
+
+
 ]

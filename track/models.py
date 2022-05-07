@@ -43,6 +43,7 @@ class Patient(models.Model):
     Kidney_function=models.IntegerField(default=60)
     food_list = models.ManyToManyField(Food)
     medication_dosages = models.ManyToManyField(Medication)
+    Glucose = models.IntegerField(default=80)
 
     @property
     def get_name(self):

@@ -46,12 +46,12 @@
 
         <td> {{d.get_name}}</td>
         <td> {{d.age}}</td>
-        <td>{{d.Blood_Pressure}}<a href=""><button style="float: right"><i class="bi bi-arrow-up-circle-fill"></i></button></a></td>
+        <td>{{d.Blood_Pressure}}<a href="{% url 'update-Urine-surgery' d.id  %}"><button style="float: right"><i class="bi bi-arrow-up-circle-fill"></i></button></a></td>
         <td>{{d.Urine_surgery}}</td>
-        <td>{{d.Fats}}<a href=""><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
-        <td>{{d.Cholesterol}}<a href=""><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
-        <td>{{d.Liver_function}}<a href=""><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
-        <td>{{d.Kidney_function}}<a href=""><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td>{{d.Fats}}<a href="{% url 'update-Urine-surgery' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td>{{d.Cholesterol}}<a href="{% url 'update-Urine-surgery' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td>{{d.Liver_function}}<a href="{% url 'update-Urine-surgery' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td>{{d.Kidney_function}}<a href="{% url 'update-Urine-surgery' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
         <td>{{d.gender}}</td>
       </tr>
       {% endfor %}

@@ -162,9 +162,23 @@ def admin_view_patient_view(request):
     patients = models.Patient.objects.all()
     return render(request, 'admin_view_patient.html', {'patients': patients})
 
+@user_passes_test(is_nurse)
+def nurse_view_patient(request):
+    patients = models.Patient.objects.all()
+    return render(request, 'nurse_view_patients.html', {'patients': patients})
+
 @user_passes_test(is_admin)
 def admin_nurse_view(request):
     return render(request, 'admin_nurse.html')
+
+
+def upadateUrineSurgery(request, id):
+    for i in models.Patient.objects.all():
+        if i.id == id:
+            if request.method == 'POST':
+                i.Urine_surgery = request.POST['UrineSurgery']
+                i.save()
+    return render(request, 'updateUrineSurgery.html')
 
 
 @user_passes_test(is_admin)
@@ -233,6 +247,8 @@ def nurse_add_food(request):
         return HttpResponseRedirect('nurse-dashboard')
     return render(request, 'nurse_add_food.html')
 
+
+
 #BSPM2022T1
 @user_passes_test(is_admin)
 def admin_add_medication(request, id_patient):
@@ -254,19 +270,6 @@ def admin_add_medication(request, id_patient):
      return render(request, 'admin_add_medication.html')
 
 
-    # medication = models.Medication.objects.get(id=pk)
-    # for i in  models.Medication.objects.all():
-    #     if i.id==pk:
-    #         medication=i
-    # if request.method == 'POST':
-    #     medication = models.Medication()
-    #     medication.name= request.POST['name']
-    #     medication.numOftimes= request.POST['numOftimes']
-    #     medication.mg = request.POST['mg']
-        # medication.expiratDate = request.POST['expiratDate']
-        # medication.Description = request.POST['Description']
-    #     medication.save()
-    #     return HttpResponseRedirect('admin_view_patient.html')
-    # return render(request, 'admin_add_medication.html')
+
     
   

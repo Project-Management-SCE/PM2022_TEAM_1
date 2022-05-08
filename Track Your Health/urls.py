@@ -59,6 +59,7 @@ urlpatterns = [
     path('patient-view-food', views.patient_view_food, name='patient-view-food'),
     path('food-favorite/<int:food_id>', views.food_list, name='food-favorite'),
     path('show-food-list', views.show_food_list, name='show-food-list'),
+    path('show-medication-list', views.show_medication_list, name='show-medication-list'),
 
     path('profile/', views.profile, name='users-profile'),
     path('update-BloodPressure/<int:id>', views.updateBloodPressure, name='update-BloodPressure'),

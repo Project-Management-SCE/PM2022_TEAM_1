@@ -436,6 +436,14 @@ def updateGlucose(request, id):
                 i.save()
     return render(request, 'updateGlucose.html')
 
+def show_medication_list(request):
+    context = None
+    if request.user.is_authenticated and not request.user.is_anonymous:
+        userInfo = models.Patient.objects.get(user=request.user)
+        print(userInfo.food_list)
+        medication = userInfo.medication_dosages.all()
+        context = {'medication': medication}
+    return render(request, 'show_medication_list.html', context)
 
     
   

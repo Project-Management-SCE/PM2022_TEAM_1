@@ -51,6 +51,10 @@ urlpatterns = [
     path('patient-dashboard/<int:id>', views.patient_dashboard, name='patient-dashboard'),
     path('logout', views.logoutUser, name='logout'),
 
+    path('patient-feedback', views.patient_feedback, name='patient-feedback'),
+    path('admin-feedbacks', views.admin_feedbacks, name='admin-feedbacks'),
+    path('patient-replays', views.feedback_list, name='patient-replays'),
+
     path('admin-patient', views.admin_patient_view, name='admin-patient'),
     path('admin-view-patient', views.admin_view_patient_view, name='admin-view-patient'),
     path('admin-view-report', views.admin_view_report, name='admin-view-report'),

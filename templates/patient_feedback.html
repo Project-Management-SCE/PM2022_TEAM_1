@@ -12,6 +12,10 @@
     border-radius: 4px;
     box-sizing: border-box;
   }
+    label {
+  width:200px;
+  display: inline-block;
+}
 
   input[type=submit] {
     width: 100%;
@@ -52,15 +56,14 @@
   <form method="post" style="margin-left:200px;margin-right:200px;">
       {% csrf_token %}
 
-    <label for="by">Subject</label>
-    {% render_field feedback.by class="form-control"  %}
+    <label for="by">Your Name</label>
+    <input type="text" name="by" id="by" value="" required>
 
     <label for="message">Message</label>
-    {% render_field feedback.message class="form-control"  %}
+    <input type="text" name="message" id="message" value="" required>
 
-    <label for="senderType">Message</label>
-    {% render_field feedback.senderType class="form-control"  %}
-
+    <label for="senderType">senderType</label>
+    <input type="text" name="senderType" id="senderType" value="" required>
 
     <input type="submit" value="Send">
   </form>

@@ -259,6 +259,38 @@ def nurse_food(request):
     return render(request,'nurse_food.html')
 
 
+@user_passes_test(is_patient)
+def patient_feedback(request):
+    if request.method == 'POST':
+        feedback = models.Feedback()
+        feedback.name = request.POST['by']
+        feedback.message = request.POST['message']
+        feedback.senderType = request.POST['senderType']
+        feedback.save()
+        patient = models.Patient()
+        for i in models.Patient.objects.all():
+            if request.user == i.user:
+                patient = i
+                patient.feedbacks.add(feedback)
+                return render(request, 'feedback_for_patient.html')
+    return render(request, 'patient_feedback.html')
+
+
+@user_passes_test(is_admin)
+def admin_feedbacks(request):
+    feedback = models.Feedback.objects.all().order_by('-id')
+    return render(request, 'admin_feedbacks.html', {'feedback': feedback})
+
+def feedback_list(request):
+    context = {}
+    patient = models.Patient()
+    if request.user.is_authenticated and not request.user.is_anonymous:
+        for i in models.Patient.objects.all():
+            if request.user == i.user:
+                patient = i
+                context['feedbacks'] = patient.feedbacks
+                feedbacks = patient.feedbacks.all()
+        return render(request, 'patient_feedbacks.html', {'feedbacks': feedbacks})
 
 
 @user_passes_test(is_nurse)

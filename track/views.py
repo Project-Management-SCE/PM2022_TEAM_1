@@ -289,6 +289,16 @@ def admin_feedbacks(request):
     feedback = models.Feedback.objects.all().order_by('-id')
     return render(request, 'admin_feedbacks.html', {'feedback': feedback})
 
+@user_passes_test(is_admin)
+def admin_replay(request, pk):
+    feedback = models.Feedback.objects.all().get(id=pk)
+    if request.method == 'POST':
+        feedback.replay = request.POST['replay']
+        feedback.save()
+        return render(request, 'replay_for_admin.html')
+    return render(request, 'admin_replay.html')
+
+
 def feedback_list(request):
     context = {}
     patient = models.Patient()

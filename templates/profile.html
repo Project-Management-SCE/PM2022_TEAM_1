@@ -389,6 +389,8 @@ hr .new1 {
 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
     <div class="card p-4">
         <div class=" image d-flex flex-column justify-content-center align-items-center"><img src="{% static  user.profile_pic.url %}" height="100" width="100" /></button> <span class="name mt-3">{{user.username}}</span>
+            <td>Glucose  {{user.Glucose}}<a href="{% url 'update-Glucose' request.user.pk  %}"><button style="float: right">Update Glucose Test</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+1
         <td>Blood Pressure  {{user.Blood_Pressure}}<a href="{% url 'update-BloodPressure' request.user.pk  %}"><button style="float: right">Update Blood Pressure Test</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
 
     </div>

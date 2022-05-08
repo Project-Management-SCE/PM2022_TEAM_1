@@ -53,12 +53,16 @@ urlpatterns = [
 
     path('admin-patient', views.admin_patient_view, name='admin-patient'),
     path('admin-view-patient', views.admin_view_patient_view, name='admin-view-patient'),
+    path('admin-view-report', views.admin_view_report, name='admin-view-report'),
     path('admin-nurse', views.admin_nurse_view, name='admin-nurse'),
     path('admin-add-nurse', views.admin_add_nurse, name='admin-add-nurse'),
     path('admin-add-patient', views.admin_add_patient, name='admin-add-patient'),
     path('nurse-food', views.nurse_food, name='nurse-food'),
     path('nurse-add-food', views.nurse_add_food, name='nurse-add-food'),
     path('nurse-patient', views.nurse_view_patient, name='nurse-patient'),
+    path('nurse-reprot', views.nurse_report_view, name='nurse-reprot'),
+    path('admin-nurse-reprot/<int:id>', views.nurse_report, name='admin-nurse-reprot'),
     path('update-Urine-surgery/<int:id>', views.upadateUrineSurgery, name='update-Urine-surgery'),
     path('admin-add-medication/<int:id_patient>', views.admin_add_medication, name='admin-add-medication'),
+    path('nurse-add-record/<int:id_nurse>', views.nurse_add_Record, name='nurse-add-record'),
 ]

@@ -59,6 +59,10 @@ class Patient(models.Model):
         return self.user.first_name+" ("+self.symptoms+")"
 
 
+class Record(models.Model):
+    patientName = models.CharField(max_length=40)
+    body = models.CharField(max_length=500)
+
 
 class Nurse(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -67,6 +71,7 @@ class Nurse(models.Model):
     department= models.CharField(max_length=50,default='Cardiologist')
     profile_pic = models.ImageField(upload_to='profile_pic/NurseProfilePic/', null=True, blank=True)
     status=models.BooleanField(default=False)
+    reports = models.ManyToManyField(Record)
     @property
     def get_name(self):
         return self.user.first_name+" "+self.user.last_name

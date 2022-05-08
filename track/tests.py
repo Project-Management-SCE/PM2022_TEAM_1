@@ -8,7 +8,6 @@ from django.urls import reverse
 from track.models import *
 
 
-
 class LogoutTest(TestCase):
     def testLogout(self):
         User.objects.create(username='israa1', password='123')
@@ -20,9 +19,6 @@ class LogoutTest(TestCase):
         self.assertFalse(response.context["user"].is_authenticated)
 
 
-
-
-
 class AdminUsersTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='username', email='email',
@@ -30,6 +26,7 @@ class AdminUsersTest(TestCase):
                                              first_name='first_name')
         self.user.set_password('password')
         self.user.save()
+
 
 #
 @tag("unit_test")
@@ -56,15 +53,12 @@ class AdminNurseFormTests(TestCase):
         self.assertFalse(login)
 
 
-
 @tag('unit-test')
 class RegisterTest_Nurse(TestCase):
     @tag('unit-test')
     def test_register_access_url(self):
         response = self.client.get('/nursesignup')
         self.assertEqual(response.status_code, 200)
-
-
 
 
 class RegisterTest_Patient(TestCase):
@@ -82,7 +76,6 @@ class RegisterTest_Patient(TestCase):
     def test_register_access_url_negative(self):
         response = self.client.get('patientsignup')
         self.assertNotEqual(response.status_code, 300)
-
 
 
 class loginTest(TestCase):
@@ -111,22 +104,21 @@ class loginTest(TestCase):
     def testLoginUsedTemplate(self):
         response = self.client.get(reverse('login'))
         self.assert_(response.status_code, 200)
-        self.assertTemplateUsed(response,'loginPage.html')
+        self.assertTemplateUsed(response, 'loginPage.html')
 
     @tag('unit-test')
     def testLogin_NOT_UsedTemplate(self):
         response = self.client.get(reverse('login'))
         self.assert_(response.status_code, 200)
-        self.assertTemplateNotUsed(response,'home.html')
+        self.assertTemplateNotUsed(response, 'home.html')
 
     @tag('unit-test')
     def testUserLogin(self):
-
         User.objects.create(username='aa', password='aa')
 
         data = {'username': 'a12', 'password': '1234'}
-        response=self.client.post(reverse('login'),data=data,follow=True)
-        self.assertEqual(response.status_code,200)
+        response = self.client.post(reverse('login'), data=data, follow=True)
+        self.assertEqual(response.status_code, 200)
         '''the reason why it redircets to login that's this user doesnt belong to any group'''
         self.assertRedirects(response, reverse('login'))
 
@@ -147,27 +139,54 @@ class loginTest(TestCase):
         self.assert_(response.status_code, 200)
         self.assertFalse(response.context["user"].is_authenticated)
 
+
 class FeedbackTest(TestCase):
 
-        @tag('unit-test')
-        def test_feedback_access_url(self):
-            response = self.client.get('patient-feedback', )
-            self.assert_(response.status_code, 200)
+    @tag('unit-test')
+    def test_feedback_access_url(self):
+        response = self.client.get('patient-feedback', )
+        self.assert_(response.status_code, 200)
 
-        @tag('unit-test')
-        def test_feedback_access_subject(self):
-            response = self.client.get(reverse('patient-feedback'))
-            self.assert_(response.status_code, 200)
+    @tag('unit-test')
+    def test_feedback_access_subject(self):
+        response = self.client.get(reverse('patient-feedback'))
+        self.assert_(response.status_code, 200)
 
-        @tag('unit-test')
-        def test_feedback_access_url_negative(self):
-            response = self.client.get('/patient-feedback')
-            self.assertNotEqual(response.status_code, 300)
+    @tag('unit-test')
+    def test_feedback_access_url_negative(self):
+        response = self.client.get('/patient-feedback')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_view(self):
+        data = {'feedbackContent': 'content', }
+        response = self.client.post(reverse('patient-feedback'), data=data, follow=True)
+        self.assert_(response.status_code, 200)
 
 
+class addMedicationTest(TestCase):
+    @tag('unit-test')
+    def test_medication_access_url(self):
+        response = self.client.get('/admin-add-medication')
+        self.assert_(response.status_code, 200)
 
-        @tag('unit-test')
-        def test_view(self):
-            data = {'feedbackContent': 'content', }
-            response = self.client.post(reverse('patient-feedback'), data=data, follow=True)
-            self.assert_(response.status_code, 200)
+
+class addRecordTest(TestCase):
+    @tag('unit-test')
+    def test_record_access_url(self):
+        response = self.client.get('/nurse-add-record')
+        self.assert_(response.status_code, 200)
+
+
+class addFoodTest(TestCase):
+    @tag('unit-test')
+    def test_food_access_url(self):
+        response = self.client.get('/nurse-add-food')
+        self.assert_(response.status_code, 200)
+
+
+class viewFoodTest(TestCase):
+    @tag('unit-test')
+    def testFoodViewTemplate(self):
+        response = self.client.get('/patient-view-food')
+        self.assert_(response.status_code, 200)

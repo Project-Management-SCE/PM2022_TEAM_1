@@ -354,7 +354,7 @@ def show_food_list(request):
                 patient = i
                 context['food'] = patient.food_list.all()
     return render(request, 'show_food_list.html', context)
-
+####Test
 def food_list(request, food_id):
     patient = models.Patient.objects.get(user=request.user)
     food = models.Food.objects.get(pk=food_id)

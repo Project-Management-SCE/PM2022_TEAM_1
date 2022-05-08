@@ -1,3 +1,5 @@
+from pyexpat import model
+from webbrowser import get
 from django.contrib import messages
 
 from django.contrib import auth
@@ -162,14 +164,42 @@ def admin_view_patient_view(request):
     patients = models.Patient.objects.all()
     return render(request, 'admin_view_patient.html', {'patients': patients})
 
+@user_passes_test(is_admin)
+def admin_view_report(request):
+    nurses = models.Nurse.objects.all()
+    patients = models.Patient.objects.all()
+    return render(request, 'admin_view_nurse_report.html', {'nurses': nurses} )
+
+
 @user_passes_test(is_nurse)
 def nurse_view_patient(request):
     patients = models.Patient.objects.all()
     return render(request, 'nurse_view_patients.html', {'patients': patients})
 
+@user_passes_test(is_nurse)
+def nurse_report_view(request):
+    patients = models.Patient.objects.all()
+    return render(request, 'nurse_report.html', {'patients': patients})
+
+
+def nurse_report(request, id):
+   dect={}
+   patients = models.Patient.objects.all()
+   user = models.Nurse.objects.get(pk=id)
+   nurse=models.Nurse()
+#    for i in  models.Nurse.objects.all():
+#         if i.user.id==id:
+#             print("Asdasdasd")
+#             nurse=i
+#             print(nurse)
+   print(user.reports.all())
+   dect['records']=user.reports.all()
+   return render(request, 'admin_nurse_report.html', dect)
+
 @user_passes_test(is_admin)
 def admin_nurse_view(request):
-    return render(request, 'admin_nurse.html')
+    patients = models.Patient.objects.all()
+    return render(request, 'admin_nurse.html', {'patients': patients})
 
 
 def upadateUrineSurgery(request, id):
@@ -337,6 +367,25 @@ def admin_add_medication(request, id_patient):
         patient.medication_dosages.add(medication)
         return render(request, 'admin_view_patient.html', context={'patients': models.Patient.objects.all()})
      return render(request, 'admin_add_medication.html')
+
+
+
+def nurse_add_Record(request, id_nurse):
+     if request.method == 'POST':
+        record = models.Record()
+        record.patientName = request.POST['patientName']
+        record.body = request.POST['body']
+        record.save()
+        # patient = models.Patient.objects.get(id_patient)
+        nurse = models.Nurse()
+        for i in  models.Nurse.objects.all():
+            if i.user.id==id_nurse:
+               print("Asdasdasd")
+               nurse=i
+               print(nurse)
+        nurse.reports.add(record)
+        return render(request, 'nurse_Record.html')
+     return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
 
 
 

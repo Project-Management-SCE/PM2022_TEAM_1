@@ -293,6 +293,27 @@ def feedback_list(request):
         return render(request, 'patient_feedbacks.html', {'feedbacks': feedbacks})
 
 
+def profile(request):
+    mydict = {}
+    user = models.User.objects.get(pk=request.user.pk)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            mydict['user'] = i
+    return render(request, 'profile.html', mydict)
+
+def updateBloodPressure(request, id):
+    # print(pk)
+    # if request.method == "GET":
+    user = models.User.objects.get(pk=id)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            if request.method == 'POST':
+                i.Blood_Pressure = request.POST['BloodPressure']
+                i.save()
+    return render(request, 'updateBloodPressure.html')
+
+
+
 @user_passes_test(is_patient)
 def patient_view_food(request):
     food = models.Food.objects.all()

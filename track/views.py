@@ -202,6 +202,28 @@ def admin_nurse_view(request):
     return render(request, 'admin_nurse.html', {'patients': patients})
 
 
+def profile(request):
+    mydict = {}
+    user = models.User.objects.get(pk=request.user.pk)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            mydict['user'] = i
+    return render(request, 'profile.html', mydict)
+
+
+def updateBloodPressure(request, id):
+    # print(pk)
+    # if request.method == "GET":
+    user = models.User.objects.get(pk=id)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            if request.method == 'POST':
+                i.Blood_Pressure = request.POST['BloodPressure']
+                i.save()
+    return render(request, 'updateBloodPressure.html')
+
+
+
 def upadateUrineSurgery(request, id):
     for i in models.Patient.objects.all():
         if i.id == id:
@@ -349,7 +371,6 @@ def nurse_add_food(request):
 
 
 
-#BSPM2022T1
 @user_passes_test(is_admin)
 def admin_add_medication(request, id_patient):
      if request.method == 'POST':

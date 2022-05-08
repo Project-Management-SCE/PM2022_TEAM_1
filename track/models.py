@@ -28,6 +28,12 @@ class Medication(models.Model):
     Description = models.CharField(max_length=3000)
 
 
+class Feedback(models.Model):
+    date = models.DateField(auto_now=True)
+    by = models.CharField(max_length=40)
+    message = models.CharField(max_length=500)
+    senderType = models.CharField(max_length=40, default="user type")
+    replay = models.CharField(max_length=500, default="Replay")
 
 class Patient(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
@@ -41,11 +47,13 @@ class Patient(models.Model):
     status=models.BooleanField(default=False)
     Urine_surgery=models.CharField(max_length=1000,default='u')
     Blood_Pressure=models.IntegerField(default=80)
+    Glucose=models.IntegerField(default=80)
     Fats=models.IntegerField(default=20)
     Cholesterol=models.IntegerField(default=150)
     Liver_function=models.IntegerField(default=55)
     Kidney_function=models.IntegerField(default=60)
     food_list = models.ManyToManyField(Food)
+    feedbacks = models.ManyToManyField(Feedback)
     medication_dosages = models.ManyToManyField(Medication)
    
 
@@ -76,10 +84,3 @@ class Nurse(models.Model):
     def __str__(self):
         return "{} ({})".format(self.user.first_name,self.department)
 
-
-class Feedback(models.Model):
-    date = models.DateField(auto_now=True)
-    by = models.CharField(max_length=40)
-    message = models.CharField(max_length=500)
-    senderType = models.CharField(max_length=40, default="user type")
-    replay = models.CharField(max_length=500, default="Replay")

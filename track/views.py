@@ -427,6 +427,14 @@ def nurse_add_Record(request, id_nurse):
         return render(request, 'nurse_Record.html')
      return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
 
+def updateGlucose(request, id):
+    user = models.User.objects.get(pk=id)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            if request.method == 'POST':
+                i.Glucose = request.POST['Glucose']
+                i.save()
+    return render(request, 'updateGlucose.html')
 
 
     

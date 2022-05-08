@@ -276,6 +276,14 @@ def patient_feedback(request):
     return render(request, 'patient_feedback.html')
 
 
+def upadateECG(request, id):
+    for i in models.Patient.objects.all():
+        if i.id == id:
+            if request.method == 'POST':
+                i.ECG = request.POST['ECG']
+                i.save()
+    return render(request, 'updateECG.html')
+
 @user_passes_test(is_admin)
 def admin_feedbacks(request):
     feedback = models.Feedback.objects.all().order_by('-id')

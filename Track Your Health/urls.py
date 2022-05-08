@@ -61,6 +61,7 @@ urlpatterns = [
 
     path('profile', views.profile, name='users-profile'),
     path('update-BloodPressure/<int:id>', views.updateBloodPressure, name='update-BloodPressure'),
+    path('update-ECG/<int:id>', views.upadateECG, name='update-ECG'),
 
     path('admin-patient', views.admin_patient_view, name='admin-patient'),
     path('admin-view-patient', views.admin_view_patient_view, name='admin-view-patient'),

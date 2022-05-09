@@ -54,11 +54,17 @@ urlpatterns = [
     path('patient-feedback', views.patient_feedback, name='patient-feedback'),
     path('admin-feedbacks', views.admin_feedbacks, name='admin-feedbacks'),
     path('patient-replays', views.feedback_list, name='patient-replays'),
+    path('send-replay/<int:pk>', views.admin_replay, name='send-replay'),
 
     path('patient-view-food', views.patient_view_food, name='patient-view-food'),
     path('food-favorite/<int:food_id>', views.food_list, name='food-favorite'),
     path('show-food-list', views.show_food_list, name='show-food-list'),
+    path('show-medication-list', views.show_medication_list, name='show-medication-list'),
 
+    path('profile/', views.profile, name='users-profile'),
+    path('update-BloodPressure/<int:id>', views.updateBloodPressure, name='update-BloodPressure'),
+    path('update-ECG/<int:id>', views.upadateECG, name='update-ECG'),
+    path('update-Glucose/<int:id>', views.updateGlucose, name='update-Glucose'),
 
     path('admin-patient', views.admin_patient_view, name='admin-patient'),
     path('admin-view-patient', views.admin_view_patient_view, name='admin-view-patient'),

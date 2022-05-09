@@ -276,10 +276,28 @@ def patient_feedback(request):
     return render(request, 'patient_feedback.html')
 
 
+def upadateECG(request, id):
+    for i in models.Patient.objects.all():
+        if i.id == id:
+            if request.method == 'POST':
+                i.ECG = request.POST['ECG']
+                i.save()
+    return render(request, 'updateECG.html')
+
 @user_passes_test(is_admin)
 def admin_feedbacks(request):
     feedback = models.Feedback.objects.all().order_by('-id')
     return render(request, 'admin_feedbacks.html', {'feedback': feedback})
+
+@user_passes_test(is_admin)
+def admin_replay(request, pk):
+    feedback = models.Feedback.objects.all().get(id=pk)
+    if request.method == 'POST':
+        feedback.replay = request.POST['replay']
+        feedback.save()
+        return render(request, 'replay_for_admin.html')
+    return render(request, 'admin_replay.html')
+
 
 def feedback_list(request):
     context = {}
@@ -293,21 +311,26 @@ def feedback_list(request):
         return render(request, 'patient_feedbacks.html', {'feedbacks': feedbacks})
 
 
-@user_passes_test(is_nurse)
-def nurse_add_food(request):
-    if request.method == 'POST':
+def profile(request):
+    mydict = {}
+    user = models.User.objects.get(pk=request.user.pk)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            mydict['user'] = i
+    return render(request, 'profile.html', mydict)
 
-        food = models.Food()
-        food.Name = request.POST['Name']
-        food.number = request.POST['num']
-        food.max_Cholesterol = request.POST['max_Cholesterol']
-        food.max_Liver_function = request.POST['max_Liver_function']
-        food.max_Kidney_function = request.POST['max_Kidney_function']
-        food.max_Blood_Pressure = request.POST['max_Blood_Pressure']
-        food.pic = request.FILES['pic']
-        food.save()
-        return HttpResponseRedirect('nurse-dashboard')
-    return render(request, 'nurse_add_food.html')
+def updateBloodPressure(request, id):
+    # print(pk)
+    # if request.method == "GET":
+    user = models.User.objects.get(pk=id)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            if request.method == 'POST':
+                i.Blood_Pressure = request.POST['BloodPressure']
+                i.save()
+    return render(request, 'updateBloodPressure.html')
+
+
 
 @user_passes_test(is_patient)
 def patient_view_food(request):
@@ -347,6 +370,23 @@ def food_list(request, food_id):
     else:
         redirect('')
     return redirect('patient-view-food')
+@user_passes_test(is_nurse)
+def nurse_add_food(request):
+    if request.method == 'POST':
+
+        food = models.Food()
+        food.Name = request.POST['Name']
+        food.number = request.POST['num']
+        food.max_Cholesterol = request.POST['max_Cholesterol']
+        food.max_Liver_function = request.POST['max_Liver_function']
+        food.max_Kidney_function = request.POST['max_Kidney_function']
+        food.max_Blood_Pressure = request.POST['max_Blood_Pressure']
+        food.pic = request.FILES['pic']
+        food.save()
+        return HttpResponseRedirect('nurse-dashboard')
+    return render(request, 'nurse_add_food.html')
+
+
 
 #BSPM2022T1
 @user_passes_test(is_admin)
@@ -387,7 +427,23 @@ def nurse_add_Record(request, id_nurse):
         return render(request, 'nurse_Record.html')
      return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
 
+def updateGlucose(request, id):
+    user = models.User.objects.get(pk=id)
+    for i in models.Patient.objects.all():
+        if i.user.id == user.id:
+            if request.method == 'POST':
+                i.Glucose = request.POST['Glucose']
+                i.save()
+    return render(request, 'updateGlucose.html')
 
+def show_medication_list(request):
+    context = None
+    if request.user.is_authenticated and not request.user.is_anonymous:
+        userInfo = models.Patient.objects.get(user=request.user)
+        print(userInfo.food_list)
+        medication = userInfo.medication_dosages.all()
+        context = {'medication': medication}
+    return render(request, 'show_medication_list.html', context)
 
     
   

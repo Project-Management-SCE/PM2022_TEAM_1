@@ -458,6 +458,3 @@ def show_medication_list(request):
         medication = userInfo.medication_dosages.all()
         context = {'medication': medication}
     return render(request, 'show_medication_list.html', context)
-
-    
-  

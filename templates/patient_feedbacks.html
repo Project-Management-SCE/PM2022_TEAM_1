@@ -37,7 +37,7 @@
 {%for f in feedbacks%}
 <div class="alert">
   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-  <strong>{{f.date}} </strong><br> {{f.message}}
+  <strong>{{f.date}} ||By :{{f.by}} </strong><br> {{f.message}}
   <h5>replay:</h5>
       {{f.replay}}
 </div>

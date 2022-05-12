@@ -299,6 +299,20 @@ def admin_replay(request, pk):
     return render(request, 'admin_replay.html')
 
 
+def nurseMessage(request, pk):
+    patient = models.Patient.objects.all().get(id=pk)
+    print(patient)
+    if request.method == 'POST':
+        message = models.Feedback()
+        message.by = request.user.username
+        message.message = request.POST['message']
+        message.senderType = request.POST['senderType']
+        message.save()
+        patient.feedbacks.add(message)
+        return render(request, 'message_for_nurse.html')
+    return render(request, 'nurseMessage.html', {'user': request.user})
+
+
 def feedback_list(request):
     context = {}
     patient = models.Patient()

@@ -33,7 +33,7 @@ class Feedback(models.Model):
     by = models.CharField(max_length=40)
     message = models.CharField(max_length=500)
     senderType = models.CharField(max_length=40, default="user type")
-    replay = models.CharField(max_length=500, default="Replay")
+    replay = models.CharField(max_length=500, default="There is no response to this message")
 
 class Patient(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)

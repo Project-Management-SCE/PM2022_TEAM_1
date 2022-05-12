@@ -53,6 +53,7 @@ urlpatterns = [
 
     path('patient-feedback', views.patient_feedback, name='patient-feedback'),
     path('admin-feedbacks', views.admin_feedbacks, name='admin-feedbacks'),
+    path('nurse-message/<int:pk>', views.nurseMessage, name='nurse-message'),
     path('patient-replays', views.feedback_list, name='patient-replays'),
     path('send-replay/<int:pk>', views.admin_replay, name='send-replay'),
 

@@ -275,7 +275,7 @@ def patient_feedback(request):
                 return render(request, 'feedback_for_patient.html')
     return render(request, 'patient_feedback.html')
 
-
+@user_passes_test(is_nurse)
 def upadateECG(request, id):
     for i in models.Patient.objects.all():
         if i.id == id:
@@ -298,7 +298,7 @@ def admin_replay(request, pk):
         return render(request, 'replay_for_admin.html')
     return render(request, 'admin_replay.html')
 
-
+@user_passes_test(is_nurse)
 def nurseMessage(request, pk):
     patient = models.Patient.objects.all().get(id=pk)
     print(patient)
@@ -312,7 +312,7 @@ def nurseMessage(request, pk):
         return render(request, 'message_for_nurse.html')
     return render(request, 'nurseMessage.html', {'user': request.user})
 
-
+@user_passes_test(is_patient)
 def feedback_list(request):
     context = {}
     patient = models.Patient()
@@ -324,7 +324,7 @@ def feedback_list(request):
                 feedbacks = patient.feedbacks.all()
         return render(request, 'patient_feedbacks.html', {'feedbacks': feedbacks})
 
-
+@user_passes_test(is_patient)
 def profile(request):
     mydict = {}
     user = models.User.objects.get(pk=request.user.pk)
@@ -332,6 +332,7 @@ def profile(request):
         if i.user.id == user.id:
             mydict['user'] = i
     return render(request, 'profile.html', mydict)
+
 
 def updateBloodPressure(request, id):
     # print(pk)
@@ -345,7 +346,7 @@ def updateBloodPressure(request, id):
     return render(request, 'updateBloodPressure.html')
 
 
-
+@user_passes_test(is_nurse)
 def updateCholesterol(request, id):
     if request.method == 'POST':
         user = models.Patient.objects.get(pk=id)
@@ -353,7 +354,7 @@ def updateCholesterol(request, id):
         user.save()
     return render(request, 'updateCholesterol.html')
 
-
+@user_passes_test(is_nurse)
 def updateFats(request, id):
     if request.method == 'POST':
         user = models.Patient.objects.get(pk=id)
@@ -361,12 +362,22 @@ def updateFats(request, id):
         user.save()
     return render(request, 'updateFats.html')
 
+@user_passes_test(is_nurse)
+def updateLiverFunction(request, id):
+    if request.method == 'POST':
+        user = models.Patient.objects.get(pk=id)
+        user.Liver_function = request.POST['LiverFunction']
+        user.save()
+    return render(request, 'updateLiverFunction.html')
+
+
 
 @user_passes_test(is_patient)
 def patient_view_food(request):
     food = models.Food.objects.all()
     return render(request, 'patient_view_food.html', {'food': food})
 
+@user_passes_test(is_patient)
 def show_food_list(request):
     context = {}
     if request.user.is_authenticated and not request.user.is_anonymous:
@@ -376,15 +387,7 @@ def show_food_list(request):
                 context['food'] = patient.food_list.all()
     return render(request, 'show_food_list.html', context)
 
-def show_food_list(request):
-    context = {}
-    if request.user.is_authenticated and not request.user.is_anonymous:
-        for i in models.Patient.objects.all():
-            if request.user == i.user:
-                patient = i
-                context['food'] = patient.food_list.all()
-    return render(request, 'show_food_list.html', context)
-
+@user_passes_test(is_patient)
 def food_list(request, food_id):
     patient = models.Patient.objects.get(user=request.user)
     food = models.Food.objects.get(pk=food_id)
@@ -400,6 +403,7 @@ def food_list(request, food_id):
     else:
         redirect('')
     return redirect('patient-view-food')
+
 @user_passes_test(is_nurse)
 def nurse_add_food(request):
     if request.method == 'POST':
@@ -439,7 +443,7 @@ def admin_add_medication(request, id_patient):
      return render(request, 'admin_add_medication.html')
 
 
-
+@user_passes_test(is_nurse)
 def nurse_add_Record(request, id_nurse):
      if request.method == 'POST':
         record = models.Record()
@@ -457,6 +461,7 @@ def nurse_add_Record(request, id_nurse):
         return render(request, 'nurse_Record.html')
      return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
 
+
 def updateGlucose(request, id):
     user = models.User.objects.get(pk=id)
     for i in models.Patient.objects.all():
@@ -466,6 +471,7 @@ def updateGlucose(request, id):
                 i.save()
     return render(request, 'updateGlucose.html')
 
+@user_passes_test(is_patient)
 def show_medication_list(request):
     context = None
     if request.user.is_authenticated and not request.user.is_anonymous:

@@ -68,6 +68,7 @@ urlpatterns = [
     path('update-Glucose/<int:id>', views.updateGlucose, name='update-Glucose'),
     path('update-Cholesterol/<int:id>', views.updateCholesterol, name='update-Cholesterol'),
     path('update-LiverFunction/<int:id>', views.updateLiverFunction, name='update-LiverFunction'),
+    path('update-KidneyFunction/<int:id>', views.updateKidneyFunction, name='update-KidneyFunction'),
 
     path('update-Fats/<int:id>', views.updateFats, name='update-Fats'),
 

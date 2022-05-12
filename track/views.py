@@ -333,6 +333,13 @@ def profile(request):
             mydict['user'] = i
     return render(request, 'profile.html', mydict)
 
+def updateKidneyFunction(request, id):
+    if request.method == 'POST':
+        user = models.Patient.objects.get(pk=id)
+        user.Kidney_function = request.POST['KidneyFunction']
+        user.save()
+    return render(request, 'updateKidneyFunction.html')
+
 
 def updateBloodPressure(request, id):
     # print(pk)

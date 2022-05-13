@@ -271,7 +271,7 @@ class NurseInsertInfoTest(TestCase):
 
 
     @tag('integration-test')
-    def IntegrationTestLoginAndLogout(self):
+    def testLoginAndLogout(self):
 
         #Login
         user=User.objects.create()
@@ -288,7 +288,7 @@ class NurseInsertInfoTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     @tag('integration-test')
-    def IntegrationTestUpdateKidneyFunction(self):
+    def testUpdateKidneyFunction(self):
 
         #Login
         user=User.objects.create()

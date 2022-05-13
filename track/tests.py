@@ -1,10 +1,10 @@
 import asyncio
 import unittest
 # from multiprocessing.dummy.connection import Client
-from django.test import Client
-from django.test import TestCase, tag
-from django.urls import reverse
 
+from django.test import TestCase,tag
+from django.urls import reverse
+from django.test import Client
 from track.models import *
 
 @tag("unit_test")
@@ -269,6 +269,40 @@ class NurseInsertInfoTest(TestCase):
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateKidneyFunction.html')
 
+
+    @tag('integration-test')
+    def IntegrationTestLoginAndLogout(self):
+
+        #Login
+        user=User.objects.create()
+        self.client.force_login(user=user)
+        #accss view
+        response = self.client.get(('login'))
+        self.assertTrue(user.is_authenticated)
+
+        self.assert_(response.status_code, 200)
+
+        #logout
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+    @tag('integration-test')
+    def IntegrationTestUpdateKidneyFunction(self):
+
+        #Login
+        user=User.objects.create()
+        self.client.force_login(user=user)
+        #accss view
+        self.assertTrue(user.is_authenticated)
+        response = self.client.get(('update-KidneyFunction/<int:id>'))
+
+        self.assert_(response.status_code, 200)
+
+        #logout
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
 
 
 

@@ -210,10 +210,12 @@ class NurseMessageTest(TestCase):
 
 class NurseInsertTest(TestCase):
 
+    @tag('unit-test')
     def test_LiverFunction_access_url(self):
         response = self.client.get('update-LiverFunction/<int:id>')
         self.assertNotEqual(response.status_code, 300)
 
+    @tag('unit-test')
     def test_LiverFunction_access_template(self):
         response = self.client.get('update-LiverFunction/<int:id>')
         self.assertNotEqual(response.status_code, 300)
@@ -221,40 +223,47 @@ class NurseInsertTest(TestCase):
 
 class NurseInsertInfoTest(TestCase):
 
+    @tag('unit-test')
     def test_LiverFunction_access_url(self):
         response = self.client.get('update-Fats/<int:id>')
         self.assertNotEqual(response.status_code, 300)
 
+    @tag('unit-test')
     def test_LiverFunction_access_template(self):
         response = self.client.get('update-Fats/<int:id>')
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateFats.html')
 
+    @tag('unit-test')
     def test_LiverCholesterol_access_url(self):
         response = self.client.get('update-Cholesterol/<int:id>')
         self.assertNotEqual(response.status_code, 300)
 
-
+    @tag('unit-test')
     def test_Cholesterol_access_template(self):
         response = self.client.get('update-Cholesterol/<int:id>')
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateCholesterol.html')
 
 
+    @tag('unit-test')
     def test_BloodPressure_access_url(self):
         response = self.client.get('update-BloodPressure/<int:id>')
         self.assertNotEqual(response.status_code, 300)
 
+    @tag('unit-test')
     def test_BloodPressure_access_template(self):
         response = self.client.get('update-BloodPressure/<int:id>')
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateBloodPressure.html')
 
 
+    @tag('unit-test')
     def test_KidneyFunction_access_url(self):
         response = self.client.get('update-KidneyFunction/<int:id>')
         self.assertNotEqual(response.status_code, 300)
 
+    @tag('unit-test')
     def test_KidneyFunction_access_template(self):
         response = self.client.get('update-KidneyFunction/<int:id>')
         self.assertNotEqual(response.status_code, 300)

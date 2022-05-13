@@ -63,6 +63,7 @@ urlpatterns = [
     path('show-medication-list', views.show_medication_list, name='show-medication-list'),
 
     path('profile/', views.profile, name='users-profile'),
+    path('update-BloodPressurePatient/<int:id>', views.updateBloodPressurePatient, name='update-BloodPressurePatient'),
     path('update-BloodPressure/<int:id>', views.updateBloodPressure, name='update-BloodPressure'),
     path('update-ECG/<int:id>', views.upadateECG, name='update-ECG'),
     path('update-Glucose/<int:id>', views.updateGlucose, name='update-Glucose'),

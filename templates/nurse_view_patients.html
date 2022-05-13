@@ -52,8 +52,8 @@
         <td>{{d.Fats}}<a href="{% url 'update-Fats' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
         <td>{{d.Cholesterol}}<a href="{% url 'update-Cholesterol' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
         <td>{{d.Liver_function}}<a href="{% url 'update-LiverFunction' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
-        <td>{{d.Kidney_function}}<a href=""><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
-         <td>{{d.ECG}}<a href="{% url 'update-ECG' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td>{{d.Kidney_function}}<a href="{% url 'update-KidneyFunction' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td>{{d.ECG}}<a href="{% url 'update-ECG' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
         <td>{{d.gender}}</td>
       </tr>
       {% endfor %}

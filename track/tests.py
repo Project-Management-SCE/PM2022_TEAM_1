@@ -83,12 +83,12 @@ class loginTest(TestCase):
     @tag('unit-test')
     def test_login_access_url(self):
         response = self.client.get('/login/')
-        self.assert_(response.status_code, 200)
+        self.assertNotEqual(response.status_code, 300)
 
     @tag('unit-test')
     def test_login_access_name(self):
         response = self.client.get(reverse('login'))
-        self.assert_(response.status_code, 200)
+        self.assertNotEqual(response.status_code, 300)
 
     @tag('unit-test')
     def test_login_access_url_negative(self):
@@ -190,6 +190,84 @@ class viewFoodTest(TestCase):
     def testFoodViewTemplate(self):
         response = self.client.get('/patient-view-food')
         self.assert_(response.status_code, 200)
+
+
+
+################################ HAchathon UnitTest ###############################################
+
+class NurseMessageTest(TestCase):
+
+    @tag('unit-test')
+    def test_message_access_url(self):
+        response = self.client.get('nurse-message')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_message_access_template(self):
+        response = self.client.get(('nurse-message'))
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'nurseMessage.html')
+
+class NurseInsertTest(TestCase):
+
+    @tag('unit-test')
+    def test_LiverFunction_access_url(self):
+        response = self.client.get('update-LiverFunction/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_LiverFunction_access_template(self):
+        response = self.client.get('update-LiverFunction/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'updateLiverFunction.html')
+
+class NurseInsertInfoTest(TestCase):
+
+    @tag('unit-test')
+    def test_LiverFunction_access_url(self):
+        response = self.client.get('update-Fats/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_LiverFunction_access_template(self):
+        response = self.client.get('update-Fats/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'updateFats.html')
+
+    @tag('unit-test')
+    def test_LiverCholesterol_access_url(self):
+        response = self.client.get('update-Cholesterol/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_Cholesterol_access_template(self):
+        response = self.client.get('update-Cholesterol/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'updateCholesterol.html')
+
+
+    @tag('unit-test')
+    def test_BloodPressure_access_url(self):
+        response = self.client.get('update-BloodPressure/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_BloodPressure_access_template(self):
+        response = self.client.get('update-BloodPressure/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'updateBloodPressure.html')
+
+
+    @tag('unit-test')
+    def test_KidneyFunction_access_url(self):
+        response = self.client.get('update-KidneyFunction/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_KidneyFunction_access_template(self):
+        response = self.client.get('update-KidneyFunction/<int:id>')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'updateKidneyFunction.html')
 
 
 

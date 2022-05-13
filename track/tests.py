@@ -7,7 +7,7 @@ from django.urls import reverse
 
 from track.models import *
 
-
+@tag("unit_test")
 class LogoutTest(TestCase):
     def testLogout(self):
         User.objects.create(username='israa1', password='123')
@@ -18,7 +18,7 @@ class LogoutTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context["user"].is_authenticated)
 
-
+@tag("unit_test")
 class AdminUsersTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='username', email='email',

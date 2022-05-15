@@ -37,9 +37,11 @@ def patientclick_view(request):
         return HttpResponseRedirect('afterlogin')  # after login for the patient
     return render(request, 'patientclick.html')
 
-#check the type of the user
+
+# check the type of the user
 def is_admin(user):
     return user.is_staff
+
 
 @user_passes_test(is_admin)
 def admin_page(request):
@@ -130,9 +132,9 @@ def nurse_dashboard(request):
     }
     return render(request, 'nurse_dashboard.html', context=mydict)
 
+
 def is_patient(user):
     return user.groups.filter(name='PATIENT').exists()
-
 
 
 def is_patient(user):
@@ -149,7 +151,6 @@ def patient_dashboard(request):
     return render(request, 'patient_dashboard.html', context=mydict)
 
 
-
 def logoutUser(request):
     logout(request)
     return redirect('login')
@@ -159,22 +160,25 @@ def logoutUser(request):
 def admin_patient_view(request):
     return render(request, 'admin_patient.html')
 
+
 @user_passes_test(is_admin)
 def admin_view_patient_view(request):
     patients = models.Patient.objects.all()
     return render(request, 'admin_view_patient.html', {'patients': patients})
 
+
 @user_passes_test(is_admin)
 def admin_view_report(request):
     nurses = models.Nurse.objects.all()
     patients = models.Patient.objects.all()
-    return render(request, 'admin_view_nurse_report.html', {'nurses': nurses} )
+    return render(request, 'admin_view_nurse_report.html', {'nurses': nurses})
 
 
 @user_passes_test(is_nurse)
 def nurse_view_patient(request):
     patients = models.Patient.objects.all()
     return render(request, 'nurse_view_patients.html', {'patients': patients})
+
 
 @user_passes_test(is_nurse)
 def nurse_report_view(request):
@@ -183,18 +187,19 @@ def nurse_report_view(request):
 
 
 def nurse_report(request, id):
-   dect={}
-   patients = models.Patient.objects.all()
-   user = models.Nurse.objects.get(pk=id)
-   nurse=models.Nurse()
-#    for i in  models.Nurse.objects.all():
-#         if i.user.id==id:
-#             print("Asdasdasd")
-#             nurse=i
-#             print(nurse)
-   print(user.reports.all())
-   dect['records']=user.reports.all()
-   return render(request, 'admin_nurse_report.html', dect)
+    dect = {}
+    patients = models.Patient.objects.all()
+    user = models.Nurse.objects.get(pk=id)
+    nurse = models.Nurse()
+    #    for i in  models.Nurse.objects.all():
+    #         if i.user.id==id:
+    #             print("Asdasdasd")
+    #             nurse=i
+    #             print(nurse)
+    print(user.reports.all())
+    dect['records'] = user.reports.all()
+    return render(request, 'admin_nurse_report.html', dect)
+
 
 @user_passes_test(is_admin)
 def admin_nurse_view(request):
@@ -231,6 +236,7 @@ def admin_add_nurse(request):
         return HttpResponseRedirect('/admin-nurse')
     return render(request, 'admin_add_nurse.html', context=mydict)
 
+
 # @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_add_patient(request):
@@ -254,9 +260,10 @@ def admin_add_patient(request):
         return HttpResponseRedirect('/admin-view-patient')
     return render(request, 'admin_add_patient.html', context=mydict)
 
+
 @user_passes_test(is_nurse)
 def nurse_food(request):
-    return render(request,'nurse_food.html')
+    return render(request, 'nurse_food.html')
 
 
 @user_passes_test(is_patient)
@@ -275,6 +282,7 @@ def patient_feedback(request):
                 return render(request, 'feedback_for_patient.html')
     return render(request, 'patient_feedback.html')
 
+
 @user_passes_test(is_nurse)
 def upadateECG(request, id):
     for i in models.Patient.objects.all():
@@ -284,10 +292,12 @@ def upadateECG(request, id):
                 i.save()
     return render(request, 'updateECG.html')
 
+
 @user_passes_test(is_admin)
 def admin_feedbacks(request):
     feedback = models.Feedback.objects.all().order_by('-id')
     return render(request, 'admin_feedbacks.html', {'feedback': feedback})
+
 
 @user_passes_test(is_admin)
 def admin_replay(request, pk):
@@ -297,6 +307,7 @@ def admin_replay(request, pk):
         feedback.save()
         return render(request, 'replay_for_admin.html')
     return render(request, 'admin_replay.html')
+
 
 @user_passes_test(is_nurse)
 def nurseMessage(request, pk):
@@ -312,6 +323,7 @@ def nurseMessage(request, pk):
         return render(request, 'message_for_nurse.html')
     return render(request, 'nurseMessage.html', {'user': request.user})
 
+
 @user_passes_test(is_patient)
 def feedback_list(request):
     context = {}
@@ -324,6 +336,7 @@ def feedback_list(request):
                 feedbacks = patient.feedbacks.all()
         return render(request, 'patient_feedbacks.html', {'feedbacks': feedbacks})
 
+
 @user_passes_test(is_patient)
 def profile(request):
     mydict = {}
@@ -333,12 +346,14 @@ def profile(request):
             mydict['user'] = i
     return render(request, 'profile.html', mydict)
 
+
 def updateKidneyFunction(request, id):
     if request.method == 'POST':
         user = models.Patient.objects.get(pk=id)
         user.Kidney_function = request.POST['KidneyFunction']
         user.save()
     return render(request, 'updateKidneyFunction.html')
+
 
 @user_passes_test(is_nurse)
 def updateBloodPressure(request, id):
@@ -347,6 +362,7 @@ def updateBloodPressure(request, id):
         user.Blood_Pressure = request.POST['BloodPressure']
         user.save()
     return render(request, 'updateBloodPressure.html')
+
 
 @user_passes_test(is_patient)
 def updateBloodPressurePatient(request, id):
@@ -358,6 +374,7 @@ def updateBloodPressurePatient(request, id):
                 i.save()
     return render(request, 'updateBloodPressurePatient.html')
 
+
 @user_passes_test(is_nurse)
 def updateCholesterol(request, id):
     if request.method == 'POST':
@@ -366,6 +383,7 @@ def updateCholesterol(request, id):
         user.save()
     return render(request, 'updateCholesterol.html')
 
+
 @user_passes_test(is_nurse)
 def updateFats(request, id):
     if request.method == 'POST':
@@ -373,6 +391,7 @@ def updateFats(request, id):
         user.Fats = request.POST['Fats']
         user.save()
     return render(request, 'updateFats.html')
+
 
 @user_passes_test(is_nurse)
 def updateLiverFunction(request, id):
@@ -383,11 +402,11 @@ def updateLiverFunction(request, id):
     return render(request, 'updateLiverFunction.html')
 
 
-
 @user_passes_test(is_patient)
 def patient_view_food(request):
     food = models.Food.objects.all()
     return render(request, 'patient_view_food.html', {'food': food})
+
 
 @user_passes_test(is_patient)
 def show_food_list(request):
@@ -398,6 +417,7 @@ def show_food_list(request):
                 patient = i
                 context['food'] = patient.food_list.all()
     return render(request, 'show_food_list.html', context)
+
 
 @user_passes_test(is_patient)
 def food_list(request, food_id):
@@ -416,10 +436,10 @@ def food_list(request, food_id):
         redirect('')
     return redirect('patient-view-food')
 
+
 @user_passes_test(is_nurse)
 def nurse_add_food(request):
     if request.method == 'POST':
-
         food = models.Food()
         food.Name = request.POST['Name']
         food.number = request.POST['num']
@@ -433,11 +453,10 @@ def nurse_add_food(request):
     return render(request, 'nurse_add_food.html')
 
 
-
-#BSPM2022T1
+# BSPM2022T1
 @user_passes_test(is_admin)
 def admin_add_medication(request, id_patient):
-     if request.method == 'POST':
+    if request.method == 'POST':
         medication = models.Medication()
         medication.name = request.POST['name']
         medication.numOftimes = request.POST['numOftimes']
@@ -447,31 +466,31 @@ def admin_add_medication(request, id_patient):
         medication.save()
         # patient = models.Patient.objects.get(id_patient)
         patient = models.Patient()
-        for i in  models.Patient.objects.all():
-            if i.id==id_patient:
-               patient=i
+        for i in models.Patient.objects.all():
+            if i.id == id_patient:
+                patient = i
         patient.medication_dosages.add(medication)
         return render(request, 'admin_view_patient.html', context={'patients': models.Patient.objects.all()})
-     return render(request, 'admin_add_medication.html')
+    return render(request, 'admin_add_medication.html')
 
 
 @user_passes_test(is_nurse)
 def nurse_add_Record(request, id_nurse):
-     if request.method == 'POST':
+    if request.method == 'POST':
         record = models.Record()
         record.patientName = request.POST['patientName']
         record.body = request.POST['body']
         record.save()
         # patient = models.Patient.objects.get(id_patient)
         nurse = models.Nurse()
-        for i in  models.Nurse.objects.all():
-            if i.user.id==id_nurse:
-               print("Asdasdasd")
-               nurse=i
-               print(nurse)
+        for i in models.Nurse.objects.all():
+            if i.user.id == id_nurse:
+                print("Asdasdasd")
+                nurse = i
+                print(nurse)
         nurse.reports.add(record)
         return render(request, 'nurse_Record.html')
-     return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
+    return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
 
 
 def updateGlucose(request, id):
@@ -483,6 +502,7 @@ def updateGlucose(request, id):
                 i.save()
     return render(request, 'updateGlucose.html')
 
+
 @user_passes_test(is_patient)
 def show_medication_list(request):
     context = None
@@ -492,3 +512,33 @@ def show_medication_list(request):
         medication = userInfo.medication_dosages.all()
         context = {'medication': medication}
     return render(request, 'show_medication_list.html', context)
+
+
+def Appointment(request):
+    return render(request, 'patient_appointment.html')
+
+
+def BookAppointment(request):
+    if request.method == 'POST':
+        user = models.Patient.objects.get(user=request.user)
+        print(user)
+        user.appointment.date = request.POST['appointment']
+        user.appointment.time = request.POST['time']
+        user.appointment.name = request.user.username
+        ap = models.Appointment()
+        ap.date = request.POST['appointment']
+        ap.time = request.POST['time']
+        ap.name = user.appointment.name
+        flag = True
+        for i in models.Appointment.objects.all():
+            print(str(i.time)[0:5])
+            print(str(user.appointment.time))
+            print(str(user.appointment.time))
+            if (str(i.date) == str(user.appointment.date) and str(i.time)[0:5] == str(user.appointment.time)):
+                flag = False
+                messages.error(request, "The role is already booked")
+        if flag:
+            user.save()
+            ap.save()
+            messages.success(request, "Book Success")
+    return render(request, 'BookAppointment.html')

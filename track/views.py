@@ -333,18 +333,30 @@ def profile(request):
             mydict['user'] = i
     return render(request, 'profile.html', mydict)
 
+def updateKidneyFunction(request, id):
+    if request.method == 'POST':
+        user = models.Patient.objects.get(pk=id)
+        user.Kidney_function = request.POST['KidneyFunction']
+        user.save()
+    return render(request, 'updateKidneyFunction.html')
 
+@user_passes_test(is_nurse)
 def updateBloodPressure(request, id):
-    # print(pk)
-    # if request.method == "GET":
+    if request.method == 'POST':
+        user = models.Patient.objects.get(pk=id)
+        user.Blood_Pressure = request.POST['BloodPressure']
+        user.save()
+    return render(request, 'updateBloodPressure.html')
+
+@user_passes_test(is_patient)
+def updateBloodPressurePatient(request, id):
     user = models.User.objects.get(pk=id)
     for i in models.Patient.objects.all():
         if i.user.id == user.id:
             if request.method == 'POST':
                 i.Blood_Pressure = request.POST['BloodPressure']
                 i.save()
-    return render(request, 'updateBloodPressure.html')
-
+    return render(request, 'updateBloodPressurePatient.html')
 
 @user_passes_test(is_nurse)
 def updateCholesterol(request, id):

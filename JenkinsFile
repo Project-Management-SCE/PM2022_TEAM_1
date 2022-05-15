@@ -11,6 +11,8 @@ pipeline {
             steps {
 		            withEnv(["HOME=${env.WORKSPACE}"]) {
 		               sh 'pip install -r requirements.txt'
+		               sh 'python manage.py makemigrations'
+		               sh 'python manage.py migrate'
 					}
 			}
         }
@@ -22,7 +24,7 @@ pipeline {
             }
             steps {
 		            withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh 'python manage.py test --tag=unit_test'
+                sh 'python manage.py test'
 		      }
 			}
         }
@@ -34,7 +36,7 @@ pipeline {
             }
             steps {
 		            withEnv(["HOME=${env.WORKSPACE}"]) {
-                sh 'python manage.py test'
+                sh 'python manage.py test --tag=integration-test'
 		      }
 			}
         }

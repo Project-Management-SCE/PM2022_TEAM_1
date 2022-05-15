@@ -56,11 +56,12 @@ urlpatterns = [
     path('nurse-message/<int:pk>', views.nurseMessage, name='nurse-message'),
     path('patient-replays', views.feedback_list, name='patient-replays'),
     path('send-replay/<int:pk>', views.admin_replay, name='send-replay'),
-
     path('patient-view-food', views.patient_view_food, name='patient-view-food'),
     path('food-favorite/<int:food_id>', views.food_list, name='food-favorite'),
     path('show-food-list', views.show_food_list, name='show-food-list'),
     path('show-medication-list', views.show_medication_list, name='show-medication-list'),
+    path('appointment', views.Appointment, name='appointment'),
+    path('bookappointment', views.BookAppointment, name='bookappointment'),
 
     path('profile/', views.profile, name='users-profile'),
     path('update-BloodPressurePatient/<int:id>', views.updateBloodPressurePatient, name='update-BloodPressurePatient'),

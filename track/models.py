@@ -67,7 +67,7 @@ class Patient(models.Model):
     food_list = models.ManyToManyField(Food)
     feedbacks = models.ManyToManyField(Feedback)
     medication_dosages = models.ManyToManyField(Medication)
-    appointment = Appointment()
+    appointment = models.ManyToManyField(Appointment)
 
     @property
     def get_name(self):

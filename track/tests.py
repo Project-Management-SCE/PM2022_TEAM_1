@@ -384,4 +384,32 @@ class AdminBookAppointmentTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    ####
+
+class PatientMapTest(TestCase):
+
+    @tag('unit-test')
+    def test_Map_access_url(self):
+        response = self.client.get('map')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_Map_access_template(self):
+        response = self.client.get('map')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'map.html')
+
+    @tag('integration-test')
+    def testMap(self):
+        # Login
+        user = User.objects.create()
+        self.client.force_login(user=user)
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(user.is_authenticated)
+
+        response = self.client.get(('map'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)

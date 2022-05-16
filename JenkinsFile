@@ -12,7 +12,7 @@ pipeline {
 		            withEnv(["HOME=${env.WORKSPACE}"]) {
 		               sh 'pip install -r requirements.txt'
 		               sh 'python manage.py makemigrations track'
-		               sh 'python manage.py migrate'
+		               sh 'python manage.py migrate track'
 					}
 			}
         }

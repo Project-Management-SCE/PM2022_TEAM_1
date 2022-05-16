@@ -14,7 +14,7 @@ GENDER_CHOICES = (
 
 
 class Appointment(models.Model):
-    date = models.DateField(default=now)
+    date = models.DateField(default=django.utils.timezone.now)
     name = models.CharField(default="unknown", max_length=30)
     time = models.TimeField(default=django.utils.timezone.now)
 

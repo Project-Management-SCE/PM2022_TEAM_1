@@ -327,6 +327,21 @@ class PatientBookAppointmentTest(TestCase):
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'patient_appointment.html')
 
+    @tag('integration-test')
+    def testLoginAndPatientBookAppointmentAndLogout(self):
+        # Login
+        user = User.objects.create()
+        self.client.force_login(user=user)
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(user.is_authenticated)
+
+        response = self.client.get(('bookappointment'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
 
 class AdminBookAppointmentTest(TestCase):
 
@@ -351,3 +366,22 @@ class AdminBookAppointmentTest(TestCase):
         response = self.client.get('appointment')
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'admin_appointment.html')
+
+
+    @tag('integration-test')
+    def testLoginAndAdminBookAppointmentAndLogout(self):
+        # Login
+        user = User.objects.create()
+        self.client.force_login(user=user)
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(user.is_authenticated)
+
+        response = self.client.get(('adminbookappointment'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+    ####

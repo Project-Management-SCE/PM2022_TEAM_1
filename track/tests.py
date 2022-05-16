@@ -2,10 +2,11 @@ import asyncio
 import unittest
 # from multiprocessing.dummy.connection import Client
 
-from django.test import TestCase,tag
+from django.test import TestCase, tag
 from django.urls import reverse
 from django.test import Client
 from track.models import *
+
 
 @tag("unit_test")
 class LogoutTest(TestCase):
@@ -17,6 +18,7 @@ class LogoutTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context["user"].is_authenticated)
+
 
 @tag("unit_test")
 class AdminUsersTest(TestCase):
@@ -192,7 +194,6 @@ class viewFoodTest(TestCase):
         self.assert_(response.status_code, 200)
 
 
-
 ################################ HAchathon UnitTest ###############################################
 
 class NurseMessageTest(TestCase):
@@ -208,6 +209,7 @@ class NurseMessageTest(TestCase):
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'nurseMessage.html')
 
+
 class NurseInsertTest(TestCase):
 
     @tag('unit-test')
@@ -220,6 +222,7 @@ class NurseInsertTest(TestCase):
         response = self.client.get('update-LiverFunction/<int:id>')
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateLiverFunction.html')
+
 
 class NurseInsertInfoTest(TestCase):
 
@@ -245,7 +248,6 @@ class NurseInsertInfoTest(TestCase):
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateCholesterol.html')
 
-
     @tag('unit-test')
     def test_BloodPressure_access_url(self):
         response = self.client.get('update-BloodPressure/<int:id>')
@@ -256,7 +258,6 @@ class NurseInsertInfoTest(TestCase):
         response = self.client.get('update-BloodPressure/<int:id>')
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateBloodPressure.html')
-
 
     @tag('unit-test')
     def test_KidneyFunction_access_url(self):
@@ -269,40 +270,84 @@ class NurseInsertInfoTest(TestCase):
         self.assertNotEqual(response.status_code, 300)
         self.assertTemplateNotUsed(response, 'updateKidneyFunction.html')
 
-
     @tag('integration-test')
     def testLoginAndLogout(self):
-
-        #Login
-        user=User.objects.create()
+        # Login
+        user = User.objects.create()
         self.client.force_login(user=user)
-        #accss view
+        # accss view
         response = self.client.get(('login'))
         self.assertTrue(user.is_authenticated)
 
         self.assert_(response.status_code, 200)
 
-        #logout
+        # logout
         response = self.client.get(reverse('logout'), follow=True)
 
         self.assertEqual(response.status_code, 200)
 
     @tag('integration-test')
     def testUpdateKidneyFunction(self):
-
-        #Login
-        user=User.objects.create()
+        # Login
+        user = User.objects.create()
         self.client.force_login(user=user)
-        #accss view
+        # accss view
         self.assertTrue(user.is_authenticated)
         response = self.client.get(('update-KidneyFunction/<int:id>'))
 
         self.assert_(response.status_code, 200)
 
-        #logout
+        # logout
         response = self.client.get(reverse('logout'), follow=True)
 
         self.assertEqual(response.status_code, 200)
 
 
+class PatientBookAppointmentTest(TestCase):
 
+    @tag('unit-test')
+    def test_Appointment_access_url(self):
+        response = self.client.get('appointment')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_BookAppointment_access_url(self):
+        response = self.client.get('bookappointment')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_BookAppointment_access_template(self):
+        response = self.client.get('bookappointment')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'BookAppointment.html')
+
+    @tag('unit-test')
+    def test_Appointment_access_template(self):
+        response = self.client.get('appointment')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'patient_appointment.html')
+
+
+class AdminBookAppointmentTest(TestCase):
+
+    @tag('unit-test')
+    def test_AdminBookAppointment_access_url(self):
+        response = self.client.get('adminAppointment')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_AdminAppointment_access_url(self):
+        response = self.client.get('adminbookappointment')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_AdminBookAppointment_access_template(self):
+        response = self.client.get('adminbookappointment')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'AdminBookAppointment.html')
+
+    @tag('unit-test')
+    def test_AdminAppointment_access_template(self):
+        response = self.client.get('appointment')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTemplateNotUsed(response, 'admin_appointment.html')

@@ -80,13 +80,25 @@ WSGI_APPLICATION = 'Track Your Health.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': str(BASE_DIR / "db.sqlite3"),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / "db.sqlite3"),
+        'ENGINE': 'djongo',
+        'NAME': 'djangodb',  # as named on server
+        'HOST': 'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
+        'USER': 'salem',
+        'PASSWORD': '12345',
+        'CLIENT': {
+           'host':  'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
+        }
+
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -105,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 STATIC_DIR=os.path.join(BASE_DIR,'static')
 MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 

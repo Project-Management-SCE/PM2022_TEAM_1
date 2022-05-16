@@ -1,3 +1,4 @@
+import django
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
@@ -15,7 +16,7 @@ GENDER_CHOICES = (
 class Appointment(models.Model):
     date = models.DateField(default=now)
     name = models.CharField(default="unknown", max_length=30)
-    time = models.TimeField(default=datetime.now())
+    time = models.TimeField(default=django.utils.timezone.now)
 
 
 class Food(models.Model):

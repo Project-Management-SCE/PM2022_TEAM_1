@@ -24,6 +24,7 @@ from track import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_view, name=''),
+    path('home', views.home_view, name='home'),
 
     path('adminclick', views.adminclick_view),
     path('nurseclick', views.nurseclick_view),
@@ -91,4 +92,7 @@ urlpatterns = [
     path('update-Urine-surgery/<int:id>', views.upadateUrineSurgery, name='update-Urine-surgery'),
     path('admin-add-medication/<int:id_patient>', views.admin_add_medication, name='admin-add-medication'),
     path('nurse-add-record/<int:id_nurse>', views.nurse_add_Record, name='nurse-add-record'),
+
+
+    path('map', views.map, name='map'),
 ]

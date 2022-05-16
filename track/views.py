@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 
 
 def home_view(request):
+    print("asdasdasdasd")
     if request.user.is_authenticated:  # check if the user is authenticated
         return HttpResponseRedirect('afterlogin')
     return render(request, 'index.html')  # home page
@@ -568,3 +569,10 @@ def BookAppointment(request):
 
 def Admin_Appointment(request):
     return render(request, 'admin_appointment.html')
+
+@user_passes_test(is_patient)
+def map(request):
+    return render(request, 'map.html')
+
+
+

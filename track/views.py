@@ -554,6 +554,7 @@ def BookAppointment(request):
         user.appointment.date = request.POST['appointment']
         user.appointment.time = request.POST['time']
         user.appointment.name = request.user.username
+        print(user.appointment.date)
         ap = models.Appointment()
         ap.date = request.POST['appointment']
         ap.time = request.POST['time']

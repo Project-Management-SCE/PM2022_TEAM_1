@@ -92,6 +92,8 @@ urlpatterns = [
     path('update-Urine-surgery/<int:id>', views.upadateUrineSurgery, name='update-Urine-surgery'),
     path('admin-add-medication/<int:id_patient>', views.admin_add_medication, name='admin-add-medication'),
     path('nurse-add-record/<int:id_nurse>', views.nurse_add_Record, name='nurse-add-record'),
+    path('nurse-view-food', views.nurse_view_food, name='nurse-view-food'),
+    path('delete-food/<int:pk>', views.delete_food, name='delete-food'),
 
 
     path('map', views.map, name='map'),

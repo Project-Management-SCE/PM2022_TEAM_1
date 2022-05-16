@@ -437,6 +437,17 @@ def food_list(request, food_id):
         redirect('')
     return redirect('patient-view-food')
 
+@user_passes_test(is_nurse)
+def nurse_view_food(request):
+    food = models.Food.objects.all()
+    return render(request, 'nurse_view_food.html', {'food': food})
+
+@user_passes_test(is_nurse)
+def delete_food(request, pk):
+    food = models.Food.objects.get(id=pk)
+    food.delete()
+    return HttpResponseRedirect('/nurse-view-food')
+
 
 @user_passes_test(is_nurse)
 def nurse_add_food(request):
@@ -535,15 +546,13 @@ def AdminBookAppointment(request):
             ap.name = patient.user
             flag = True
             for i in models.Appointment.objects.all():
-                # print(str(i.time)[0:5])
-                # print(str(patient.appointment.time))
-                # print(str(patient.appointment.date))
                 if (str(i.date) == str(ap.date) and str(i.time)[0:5] == str(ap.time)):
                     flag = False
                     messages.error(request, "The role is already booked")
             if flag:
-                ap.save()
                 patient.appointment.add(ap)
+                ap.save()
+
                 messages.success(request, "Book Success")
     return render(request, 'AdminBookAppointment.html', {'patients': models.Patient.objects.all()})
 

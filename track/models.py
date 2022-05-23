@@ -78,7 +78,6 @@ class Patient(models.Model):
     Liver_function = models.IntegerField(default=55)
     Kidney_function = models.IntegerField(default=60)
     ECG = models.IntegerField(default=70)
-    food_list = models.ManyToManyField(Food)
 
     @property
     def get_name(self):

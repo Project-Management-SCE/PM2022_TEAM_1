@@ -14,7 +14,6 @@ from django.shortcuts import get_object_or_404
 
 
 def home_view(request):
-    print("asdasdasdasd")
     if request.user.is_authenticated:  # check if the user is authenticated
         return HttpResponseRedirect('afterlogin')
     return render(request, 'index.html')  # home page
@@ -189,16 +188,7 @@ def nurse_report_view(request):
 
 def nurse_report(request, id):
     dect = {}
-    patients = models.Patient.objects.all()
-    user = models.Nurse.objects.get(pk=id)
-    nurse = models.Nurse()
-    #    for i in  models.Nurse.objects.all():
-    #         if i.user.id==id:
-    #             print("Asdasdasd")
-    #             nurse=i
-    #             print(nurse)
-    print(user.reports.all())
-    dect['records'] = user.reports.all()
+    dect['records'] = models.Record.objects.filter(nurse_id=id)
     return render(request, 'admin_nurse_report.html', dect)
 
 
@@ -255,6 +245,7 @@ def admin_add_patient(request):
             user.save()
             patient = patientForm.save(commit=False)
             patient.user = user
+            print("|Asdasdaddas")
             patient.save()
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
@@ -274,13 +265,13 @@ def patient_feedback(request):
         feedback.name = request.POST['by']
         feedback.message = request.POST['message']
         feedback.senderType = request.POST['senderType']
+        feedback.sen_id = request.user.id
         feedback.save()
-        patient = models.Patient()
-        for i in models.Patient.objects.all():
-            if request.user == i.user:
-                patient = i
-                patient.feedbacks.add(feedback)
-                return render(request, 'feedback_for_patient.html')
+        # patient = models.Patient()
+        # for i in models.Patient.objects.all():
+        #     if request.user == i.user:
+        #         patient = i
+        return render(request, 'feedback_for_patient.html')
     return render(request, 'patient_feedback.html')
 
 
@@ -312,15 +303,20 @@ def admin_replay(request, pk):
 
 @user_passes_test(is_nurse)
 def nurseMessage(request, pk):
-    patient = models.Patient.objects.all().get(id=pk)
+    patient = None
+    for i in models.Patient.objects.all():
+        if i.user_id == pk:
+            patient = i
     print(patient)
     if request.method == 'POST':
         message = models.Feedback()
         message.by = request.user.username
         message.message = request.POST['message']
         message.senderType = request.POST['senderType']
+        message.sen_id = request.user.id
+        message.rec_id = patient.user_id
         message.save()
-        patient.feedbacks.add(message)
+        # patient.feedbacks.add(message)
         return render(request, 'message_for_nurse.html')
     return render(request, 'nurseMessage.html', {'user': request.user})
 
@@ -331,19 +327,28 @@ def feedback_list(request):
     patient = models.Patient()
     if request.user.is_authenticated and not request.user.is_anonymous:
         for i in models.Patient.objects.all():
-            if request.user == i.user:
-                patient = i
-                context['feedbacks'] = patient.feedbacks
-                feedbacks = patient.feedbacks.all()
-        return render(request, 'patient_feedbacks.html', {'feedbacks': feedbacks})
+            if request.user.id == i.user_id:
+                context['feedbacks'] = models.Feedback.objects.filter(sen_id=i.user_id)
+        return render(request, 'patient_feedbacks.html', context)
+
+
+@user_passes_test(is_patient)
+def message_list(request):
+    context = {}
+    patient = models.Patient()
+    if request.user.is_authenticated and not request.user.is_anonymous:
+        for i in models.Patient.objects.all():
+            if request.user.id == i.user_id:
+                context['feedbacks'] = models.Feedback.objects.filter(rec_id=i.user_id)
+        return render(request, 'patient_received.html', context)
 
 
 @user_passes_test(is_patient)
 def profile(request):
     mydict = {}
-    user = models.User.objects.get(pk=request.user.pk)
+    user = models.User.objects.get(id=request.user.id)
     for i in models.Patient.objects.all():
-        if i.user.id == user.id:
+        if i.user_id == user.id:
             mydict['user'] = i
     return render(request, 'profile.html', mydict)
 
@@ -357,9 +362,9 @@ def updateKidneyFunction(request, id):
 
 
 @user_passes_test(is_nurse)
-def updateBloodPressure(request, id):
+def updateBloodPressure(request, pk):
     if request.method == 'POST':
-        user = models.Patient.objects.get(pk=id)
+        user = models.Patient.objects.get(id=pk)
         user.Blood_Pressure = request.POST['BloodPressure']
         user.save()
     return render(request, 'updateBloodPressure.html')
@@ -374,7 +379,6 @@ def updateBloodPressurePatient(request, id):
                 i.Blood_Pressure = request.POST['BloodPressure']
                 i.save()
     return render(request, 'updateBloodPressurePatient.html')
-
 
 @user_passes_test(is_nurse)
 def updateCholesterol(request, id):
@@ -406,53 +410,89 @@ def updateLiverFunction(request, id):
 @user_passes_test(is_patient)
 def patient_view_food(request):
     food = models.Food.objects.all()
+    # for i in food:
+    #     print(i.Name)
     return render(request, 'patient_view_food.html', {'food': food})
 
 
 @user_passes_test(is_patient)
 def show_food_list(request):
-    context = {}
+    context = None
+    lst=[]
     if request.user.is_authenticated and not request.user.is_anonymous:
-        for i in models.Patient.objects.all():
-            if request.user == i.user:
-                patient = i
-                context['food'] = patient.food_list.all()
+        userInfo = models.Patient.objects.get(user=request.user)
+        food = models.FoodPatient.objects.filter(patient_id=userInfo.user_id)
+        for i in food:
+            for j in models.Food.objects.all():
+                if i.foodName==j.Name:
+                    lst.append(j)
+        context = {'food': lst}
+        print(userInfo.user)
     return render(request, 'show_food_list.html', context)
 
 
 @user_passes_test(is_patient)
-def food_list(request, food_id):
+def food_list(request, pk):
     patient = models.Patient.objects.get(user=request.user)
-    food = models.Food.objects.get(pk=food_id)
+    f = models.FoodPatient()
+    for i in models.Food.objects.all():
+        if i.Name == pk:
+            print("TTTTrue")
+            food = i
+            f.foodName = food.Name
     check = patient.Cholesterol > food.max_Cholesterol or patient.Liver_function > food.max_Liver_function or patient.Kidney_function > food.max_Kidney_function or patient.Blood_Pressure > food.max_Blood_Pressure
     if request.user.is_authenticated and not request.user.is_anonymous:
-        food = models.Food.objects.get(pk=food_id)
-        if models.Patient.objects.filter(user=request.user, food_list=food).exists() or check == True:
+        if check != True:
             messages.error(request, '\t')
-        elif check != True:
+        if check == True:
+            print("True")
             user = models.Patient.objects.get(user=request.user)
-            user.food_list.add(food)
+            food.patient_id = user.user_id
+            f.patient_id = user.user_id
+            f.save()
+            # food.save()
             messages.success(request, '\t')
     else:
         redirect('')
     return redirect('patient-view-food')
+
 
 @user_passes_test(is_nurse)
 def nurse_view_food(request):
     food = models.Food.objects.all()
     return render(request, 'nurse_view_food.html', {'food': food})
 
+
 @user_passes_test(is_nurse)
 def delete_food(request, pk):
-    food = models.Food.objects.get(id=pk)
-    food.delete()
+    food = models.Food()
+    print("asdasdasdasd")
+    for i in models.Food.objects.all():
+        if i.Name == pk:
+            print("asdasdasd")
+
+    food = models.Food.objects.filter(Name=pk)
+    # for i in food:
+    #     if i.Name==pk:
+    #         i.delete()
+    # print(i.max_Blood_Pressure)
+    # print(models.Food.objects.filter(Name=pk))
+    # print(food.max_Cholesterol)
+    # for i in models.Food.objects.all():
+    #     if i.Name == pk:
+    #         i.delete()
     return HttpResponseRedirect('/nurse-view-food')
 
 
 @user_passes_test(is_nurse)
 def nurse_add_food(request):
+    flag = False
     if request.method == 'POST':
         food = models.Food()
+        for i in models.Food.objects.all():
+            if i.Name == request.POST['Name']:
+                flag = True
+
         food.Name = request.POST['Name']
         food.number = request.POST['num']
         food.max_Cholesterol = request.POST['max_Cholesterol']
@@ -460,7 +500,11 @@ def nurse_add_food(request):
         food.max_Kidney_function = request.POST['max_Kidney_function']
         food.max_Blood_Pressure = request.POST['max_Blood_Pressure']
         food.pic = request.FILES['pic']
-        food.save()
+        if flag == False:
+            food.save()
+        else:
+            messages.error(request, "The role is already booked")
+
         return HttpResponseRedirect('nurse-dashboard')
     return render(request, 'nurse_add_food.html')
 
@@ -475,13 +519,8 @@ def admin_add_medication(request, id_patient):
         medication.mg = request.POST['mg']
         medication.expiratDate = request.POST['expiratDate']
         medication.Description = request.POST['Description']
+        medication.patient_id = id_patient
         medication.save()
-        # patient = models.Patient.objects.get(id_patient)
-        patient = models.Patient()
-        for i in models.Patient.objects.all():
-            if i.id == id_patient:
-                patient = i
-        patient.medication_dosages.add(medication)
         return render(request, 'admin_view_patient.html', context={'patients': models.Patient.objects.all()})
     return render(request, 'admin_add_medication.html')
 
@@ -492,15 +531,15 @@ def nurse_add_Record(request, id_nurse):
         record = models.Record()
         record.patientName = request.POST['patientName']
         record.body = request.POST['body']
+        record.nurse_id = id_nurse
         record.save()
         # patient = models.Patient.objects.get(id_patient)
-        nurse = models.Nurse()
-        for i in models.Nurse.objects.all():
-            if i.user.id == id_nurse:
-                print("Asdasdasd")
-                nurse = i
-                print(nurse)
-        nurse.reports.add(record)
+        # nurse = models.Nurse()
+        # for i in models.Nurse.objects.all():
+        #     if i.user.id == id_nurse:
+        #         print("Asdasdasd")
+        #         nurse = i
+        #         print(nurse)
         return render(request, 'nurse_Record.html')
     return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
 
@@ -508,7 +547,7 @@ def nurse_add_Record(request, id_nurse):
 def updateGlucose(request, id):
     user = models.User.objects.get(pk=id)
     for i in models.Patient.objects.all():
-        if i.user.id == user.id:
+        if str(i.user) == str(user.username):
             if request.method == 'POST':
                 i.Glucose = request.POST['Glucose']
                 i.save()
@@ -520,14 +559,15 @@ def show_medication_list(request):
     context = None
     if request.user.is_authenticated and not request.user.is_anonymous:
         userInfo = models.Patient.objects.get(user=request.user)
-        print(userInfo.food_list)
-        medication = userInfo.medication_dosages.all()
+        medication = models.Medication.objects.filter(patient_id=userInfo.user_id)
         context = {'medication': medication}
     return render(request, 'show_medication_list.html', context)
 
 
 def Appointment(request):
     return render(request, 'patient_appointment.html')
+
+
 def AdminBookAppointment(request):
     patient = models.Patient()
     if request.method == 'POST':
@@ -537,24 +577,27 @@ def AdminBookAppointment(request):
                 c = True
                 patient = i
         if c:
-            # patient.appointment.date = request.POST['appointment']
-            # patient.appointment.time = request.POST['time']
-            # patient.appointment.name = patient.user
             ap = models.Appointment()
             ap.date = request.POST['appointment']
             ap.time = request.POST['time']
             ap.name = patient.user
+            ap.patient_id = patient.user_id
             flag = True
             for i in models.Appointment.objects.all():
                 if (str(i.date) == str(ap.date) and str(i.time)[0:5] == str(ap.time)):
                     flag = False
                     messages.error(request, "The role is already booked")
             if flag:
-                patient.appointment.add(ap)
                 ap.save()
 
                 messages.success(request, "Book Success")
     return render(request, 'AdminBookAppointment.html', {'patients': models.Patient.objects.all()})
+
+
+def PatientAppointments(request):
+    context = {}
+    context['appointment'] = models.Appointment.objects.filter(patient_id=request.user.id)
+    return render(request, 'MyAppointment.html', context)
 
 
 def BookAppointment(request):
@@ -564,6 +607,7 @@ def BookAppointment(request):
         ap.date = request.POST['appointment']
         ap.time = request.POST['time']
         ap.name = request.user.username
+        ap.patient_id = request.user.id
         flag = True
         for i in models.Appointment.objects.all():
             if (str(i.date) == str(ap.date) and str(i.time)[0:5] == str(ap.time)[0:5]):
@@ -571,7 +615,6 @@ def BookAppointment(request):
                 messages.error(request, "The role is already booked")
         if flag:
             ap.save()
-            user.appointment.add(ap)
             messages.success(request, "Book Success")
     return render(request, 'BookAppointment.html')
 
@@ -579,9 +622,7 @@ def BookAppointment(request):
 def Admin_Appointment(request):
     return render(request, 'admin_appointment.html')
 
+
 @user_passes_test(is_patient)
 def map(request):
     return render(request, 'map.html')
-
-
-

@@ -43,13 +43,13 @@
       <tr>
 
         <td> {{f.Name}}</td>
-        <td> {{f.number}}</td>
+        <td> {{f.id}}</td>
         <td> {{f.max_Cholesterol}}</td>
         <td> {{f.max_Liver_function}}</td>
         <td> {{f.max_Kidney_function}}</td>
         <td> {{f.max_Blood_Pressure}}</td>
         <td> <img src="{% static f.pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
-        <td><a class="btn btn-danger btn-xs" href="{% url 'delete-food' f.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+        <td><a class="btn btn-danger btn-xs" href="{% url 'delete-food' f.Name %}"><span class="glyphicon glyphicon-trash"></span></a></td>
 
       </tr>
       {% endfor %}

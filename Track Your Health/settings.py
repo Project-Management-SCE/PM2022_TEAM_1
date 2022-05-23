@@ -80,25 +80,36 @@ WSGI_APPLICATION = 'Track Your Health.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / "db.sqlite3"),
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': 'djangodb',  # as named on server
-#         'HOST': 'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
-#         'USER': 'salem',
-#         'PASSWORD': '12345',
-#         'CLIENT': {
-#            'host':  'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
-#         }
-#
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': str(BASE_DIR / "db.sqlite3"),
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': '12345',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'djangodb',  # as named on server
+        'HOST': 'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
+        'USER': 'salem',
+        'PASSWORD': '12345',
+        'CLIENT': {
+           'host':  'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
+        }
+
+    }
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

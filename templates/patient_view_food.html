@@ -42,6 +42,7 @@
         </tr>
       </thead>
       {% for f in food %}
+
       <tr>
 
         <td> {{f.Name}}</td>
@@ -52,8 +53,7 @@
         <td> {{f.max_Blood_Pressure}}</td>
         <td> <img src="{% static f.pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
         <div class="container" align ="center">
-          <td><a class="btn info" href="{% url 'food-favorite' f.id %}"><span class="glyphicon glyphicon-circle-arrow-up"></span></a></td>
-
+          <td><a class="btn info" href="{% url 'food-favorite' f.Name %}"><span class="glyphicon glyphicon-circle-arrow-up"></span></a></td>
 </div>
       </tr>
       {% endfor %}

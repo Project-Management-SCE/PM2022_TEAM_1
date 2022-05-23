@@ -47,7 +47,7 @@
 
         <td> {{d.get_name}}</td>
         <td> {{d.age}}</td>
-        <td>{{d.Blood_Pressure}}<a href="{% url 'update-BloodPressure' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td>{{d.Blood_Pressure}}<a href="{% url 'update-BloodPressure' d.pk  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
         <td>{{d.Urine_surgery}}<a href="{% url 'update-Urine-surgery' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
         <td>{{d.Fats}}<a href="{% url 'update-Fats' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
         <td>{{d.Cholesterol}}<a href="{% url 'update-Cholesterol' d.id  %}"><button style="float: right">Update</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
@@ -76,7 +76,7 @@
       {% for d in patients %}
       <tr>
         <td> {{d.get_name}}</td>
-        <td><a href="{% url 'nurse-message' d.id  %}"><button style="float: right">Send Message</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td><a href="{% url 'nurse-message' d.user_id  %}"><button style="float: right">Send Message</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
       </tr>
       {% endfor %}
     </table>

@@ -1,6 +1,9 @@
+import random
+
 import django
 from django.contrib.auth.models import User
 from django.db import models
+from djongo import models
 from django.utils.timezone import now
 from datetime import datetime
 
@@ -14,12 +17,14 @@ GENDER_CHOICES = (
 
 
 class Appointment(models.Model):
+    patient_id = models.IntegerField(default=0)
     date = models.DateField(default=django.utils.timezone.now)
     name = models.CharField(default="unknown", max_length=30)
-    time = models.TimeField(default=django.utils.timezone.now,blank=True, null=True)
+    time = models.TimeField(default=django.utils.timezone.now, blank=True, null=True)
 
 
 class Food(models.Model):
+    patient_id = models.IntegerField(default=0)
     Name = models.CharField(max_length=50)
     number = models.IntegerField(default=1)
     max_Cholesterol = models.IntegerField(default=150)
@@ -29,8 +34,14 @@ class Food(models.Model):
     pic = models.ImageField(upload_to='profile_pic/Food/', null=True, blank=True)
 
 
+class FoodPatient(models.Model):
+    patient_id = models.IntegerField(default=0)
+    foodName = models.CharField(max_length=50)
+
+
 # BSPM2022T1
 class Medication(models.Model):
+    patient_id = models.IntegerField(default=0)
     name = models.CharField(max_length=255)
     numOftimes = models.PositiveIntegerField(default=0)
     mg = models.PositiveIntegerField(default=0)
@@ -39,6 +50,8 @@ class Medication(models.Model):
 
 
 class Feedback(models.Model):
+    sen_id = models.IntegerField(default=0)
+    rec_id = models.IntegerField(default=0)
     date = models.DateField(auto_now=True)
     by = models.CharField(max_length=40)
     message = models.CharField(max_length=500)
@@ -47,6 +60,7 @@ class Feedback(models.Model):
 
 
 class Patient(models.Model):
+    id = models.IntegerField(default=random.randint(0,100000),primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=40)
     gender = models.IntegerField(choices=GENDER_CHOICES)
@@ -65,9 +79,6 @@ class Patient(models.Model):
     Kidney_function = models.IntegerField(default=60)
     ECG = models.IntegerField(default=70)
     food_list = models.ManyToManyField(Food)
-    feedbacks = models.ManyToManyField(Feedback)
-    medication_dosages = models.ManyToManyField(Medication)
-    appointment = models.ManyToManyField(Appointment)
 
     @property
     def get_name(self):
@@ -80,8 +91,13 @@ class Patient(models.Model):
     def __str__(self):
         return self.user.first_name + " (" + self.symptoms + ")"
 
+    @property
+    def update(self, a):
+        self.Blood_Pressure = a
+
 
 class Record(models.Model):
+    nurse_id = models.IntegerField(default=0)
     patientName = models.CharField(max_length=40)
     body = models.CharField(max_length=500)
 
@@ -93,7 +109,6 @@ class Nurse(models.Model):
     department = models.CharField(max_length=50, default='Cardiologist')
     profile_pic = models.ImageField(upload_to='profile_pic/NurseProfilePic/', null=True, blank=True)
     status = models.BooleanField(default=False)
-    reports = models.ManyToManyField(Record)
 
     @property
     def get_name(self):

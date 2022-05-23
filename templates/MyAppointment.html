@@ -1,4 +1,4 @@
-{% extends 'nurse_base.html' %}
+{% extends 'patient_base.html' %}
 {% block content %}
 {%load static%}
 
@@ -21,25 +21,36 @@
     }
   </style>
 </head>
-<div class="container">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h6 class="panel-title">Nurse Report</h6>
-    </div>
-    <table class="table table-hover" id="dev-table">
+
+<!DOCTYPE html>
+<html>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+<body>
+
+<h2 style="text-align:center;">My Appointments</h2>
+
       <thead>
         <tr>
+
           <th>Name</th>
+          <th>Date</th>
+          <th>Time</th>
         </tr>
       </thead>
-      {% for d in nurses %}
+ {%for p in appointment%}
+<table style="width:100%">
+      </thead>
       <tr>
-
-        <td> {{d.get_name}}</td>
-        <td><a href="{% url 'admin-nurse-reprot' d.user_id  %}"><button style="float: right">View</button><i class="bi bi-arrow-up-circle-fill"></i></a></td>
+        <td> {{p.name}}</td>
+        <td>{{p.date}}</td>
+        <td>{{p.time}}</td>
       </tr>
-      {% endfor %}
-    </table>
-  </div>
-</div>
+</table>
+    {% endfor %}
+</body>
+</html>
 {% endblock content %}

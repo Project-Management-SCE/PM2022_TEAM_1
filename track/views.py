@@ -1,3 +1,4 @@
+import uuid
 from pyexpat import model
 from webbrowser import get
 from django.contrib import messages
@@ -109,6 +110,7 @@ def afterlogin_view(request):
                     auth.login(request, user)
                     return redirect('nurse-dashboard')
                 elif user is not None and user.groups.filter(name='PATIENT').exists():
+                    print("asdasdas")
                     auth.login(request, user)
                     return redirect('patient-dashboard')
             else:

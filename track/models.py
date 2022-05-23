@@ -1,4 +1,5 @@
 import random
+import uuid
 
 import django
 from django.contrib.auth.models import User
@@ -60,7 +61,7 @@ class Feedback(models.Model):
 
 
 class Patient(models.Model):
-    id = models.IntegerField(default=random.randint(0,100000),primary_key=True)
+    id = models.CharField(default=uuid.uuid4(), primary_key=True,max_length=36)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=40)
     gender = models.IntegerField(choices=GENDER_CHOICES)

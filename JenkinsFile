@@ -11,7 +11,7 @@ pipeline {
             steps {
 		            withEnv(["HOME=${env.WORKSPACE}"]) {
 		               sh 'pip install -r requirements.txt'
-		               sh 'pip install djongo'
+		               sh 'python -m pip install djongo'
 		               sh 'python manage.py makemigrations'
 		               sh 'python manage.py migrate'
 					}

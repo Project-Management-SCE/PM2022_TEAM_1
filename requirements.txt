@@ -49,3 +49,5 @@ xhtml2pdf==0.2.5
 djongo
 pymongo==3.7.2
 pytz
+python-social-auth==0.2.21
+social-auth-app-django

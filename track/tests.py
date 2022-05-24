@@ -52,10 +52,10 @@ class AdminNurseFormTests(unittest.TestCase):
         response = c.get(reverse('admin-add-nurse'))
         self.assert_(response.status_code, 200)
 
-    @tag('unit-test')
-    def test_login(self):
-        login = self.client.login(username='test', password='test')
-        self.assertFalse(login)
+    # @tag('unit-test')
+    # def test_login(self):
+    #     login = self.client.login(username='test', password='test')
+    #     self.assertFalse(login)
 
 
 @tag('unit-test')

@@ -52,3 +52,4 @@ pytz
 python-social-auth==0.2.21
 social-auth-app-django
 six
+django-utils-six

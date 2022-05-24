@@ -357,7 +357,7 @@ def profile(request):
 
 def updateKidneyFunction(request, id):
     if request.method == 'POST':
-        user = models.Patient.objects.get(pk=id)
+        user = models.Patient.objects.get(user_id=id)
         user.Kidney_function = request.POST['KidneyFunction']
         user.save()
     return render(request, 'updateKidneyFunction.html')
@@ -366,7 +366,7 @@ def updateKidneyFunction(request, id):
 @user_passes_test(is_nurse)
 def updateBloodPressure(request, pk):
     if request.method == 'POST':
-        user = models.Patient.objects.get(id=pk)
+        user = models.Patient.objects.get(user_id=pk)
         user.Blood_Pressure = request.POST['BloodPressure']
         user.save()
     return render(request, 'updateBloodPressure.html')
@@ -385,7 +385,7 @@ def updateBloodPressurePatient(request, id):
 @user_passes_test(is_nurse)
 def updateCholesterol(request, id):
     if request.method == 'POST':
-        user = models.Patient.objects.get(pk=id)
+        user = models.Patient.objects.get(user_id=id)
         user.Cholesterol = request.POST['Cholesterol']
         user.save()
     return render(request, 'updateCholesterol.html')
@@ -394,7 +394,7 @@ def updateCholesterol(request, id):
 @user_passes_test(is_nurse)
 def updateFats(request, id):
     if request.method == 'POST':
-        user = models.Patient.objects.get(pk=id)
+        user = models.Patient.objects.get(user_id=id)
         user.Fats = request.POST['Fats']
         user.save()
     return render(request, 'updateFats.html')
@@ -403,7 +403,7 @@ def updateFats(request, id):
 @user_passes_test(is_nurse)
 def updateLiverFunction(request, id):
     if request.method == 'POST':
-        user = models.Patient.objects.get(pk=id)
+        user = models.Patient.objects.get(user_id=id)
         user.Liver_function = request.POST['LiverFunction']
         user.save()
     return render(request, 'updateLiverFunction.html')

@@ -122,7 +122,7 @@ class loginTest(unittest.TestCase):
         # User.objects.create(username='aa', password='aa')
 
         data = {'username': 'a12', 'password': '1234'}
-        response = self.client.post(reverse('login'), data=data, follow=True)
+        response = self.client.post(reverse(''), data=data, follow=True)
         self.assertEqual(response.status_code, 200)
         '''the reason why it redircets to login that's this user doesnt belong to any group'''
         # self.assertRedirects(response, reverse('login'))

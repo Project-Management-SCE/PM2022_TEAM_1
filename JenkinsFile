@@ -11,10 +11,6 @@ pipeline {
             steps {
 		            withEnv(["HOME=${env.WORKSPACE}"]) {
 		               sh 'pip install -r requirements.txt'
-		               sh 'pip install pymongo==3.12.1'
-		               sh 'pip install dnspython'
-		               sh 'python manage.py makemigrations'
-		               sh 'python manage.py migrate'
 					}
 			}
         }

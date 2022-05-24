@@ -47,6 +47,5 @@ webencodings==0.5.1
 whitenoise==3.3.1
 xhtml2pdf==0.2.5
 djongo
-pymongo==3.12.1
 pymongo==3.7.2
 pytz

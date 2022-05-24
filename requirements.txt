@@ -131,7 +131,6 @@ setuptools==62.3.2
 six==1.15.0
 social-auth-app-django==5.0.0
 social-auth-core==4.2.0
-sqlparse==0.2.4
 txaio==18.8.1
 typing-extensions==4.2.0
 urllib3==1.26.4

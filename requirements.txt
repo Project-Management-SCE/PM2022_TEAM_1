@@ -145,7 +145,7 @@ virtualenv==16.0.0
 virtualenv-clone==0.3.0
 webencodings==0.5.1
 wheel==0.37.1
-whitenoise=3.3.1
+whitenoise==3.3.1
 xhtml2pdf==0.2.5
 zope.interface==5.4.0
 

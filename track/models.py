@@ -61,7 +61,7 @@ class Feedback(models.Model):
 
 
 class Patient(models.Model):
-    id = models.IntegerField(default=0, primary_key=True)
+    id = models.IntegerField(default=random.randint(0,10000), primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=40)
     gender = models.IntegerField(choices=GENDER_CHOICES)

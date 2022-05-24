@@ -13,7 +13,7 @@ class LogoutTest(unittest.TestCase):
     client = Client()
     def testLogout(self):
         # User.objects.create(username='israa1', password='123')
-        self.client.login(username='username', password='password')
+        # self.client.login(username='username', password='password')
 
         response = self.client.get(reverse('logout'), follow=True)
 

@@ -45,7 +45,6 @@ webencodings==0.5.1
 whitenoise==3.3.1
 xhtml2pdf==0.2.5
 djongo
-pymongo==3.7.2
 pytz
 python-social-auth==0.2.21
 social-auth-app-django

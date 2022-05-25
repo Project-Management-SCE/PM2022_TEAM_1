@@ -593,6 +593,10 @@ def PatientAppointments(request):
     context['appointment'] = models.Appointment.objects.filter(patient_id=request.user.id)
     return render(request, 'MyAppointment.html', context)
 
+def adminAppointments(request):
+    appointments = models.Appointment.objects.all()
+    return render(request, 'adminAppointments.html', {'appointments': appointments})
+
 
 def BookAppointment(request):
     if request.method == 'POST':

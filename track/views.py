@@ -401,6 +401,15 @@ def updateLiverFunction(request, id):
     return render(request, 'updateLiverFunction.html')
 
 
+
+
+def updateKidneyFunction(request, id):
+    if request.method == 'POST':
+        user = models.Patient.objects.get(user_id=id)
+        user.Kidney_function = request.POST['KidneyFunction']
+        user.save()
+    return render(request, 'updateKidneyFunction.html')
+
 @user_passes_test(is_patient)
 def patient_view_food(request):
     food = models.Food.objects.all()

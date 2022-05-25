@@ -71,6 +71,7 @@ urlpatterns = [
     path('update-BloodPressure/<int:pk>', views.updateBloodPressure, name='update-BloodPressure'),
     path('update-ECG/<int:id>', views.upadateECG, name='update-ECG'),
     path('update-Glucose/<int:id>', views.updateGlucose, name='update-Glucose'),
+    path('update-LiverFunction/<int:id>', views.updateLiverFunction, name='update-LiverFunction'),
     path('update-Cholesterol/<int:id>', views.updateCholesterol, name='update-Cholesterol'),
 
 
@@ -84,6 +85,7 @@ urlpatterns = [
     path('admin-add-patient', views.admin_add_patient, name='admin-add-patient'),
     path('adminAppointment', views.Admin_Appointment, name='adminAppointment'),
     path('adminbookappointment', views.AdminBookAppointment, name='adminbookappointment'),
+    path('admin-appointments', views.adminAppointments, name='admin-appointments'),
 
     path('nurse-food', views.nurse_food, name='nurse-food'),
     path('nurse-add-food', views.nurse_add_food, name='nurse-add-food'),

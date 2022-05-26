@@ -96,6 +96,10 @@ def patient_signup_view(request):
     return render(request, 'patientsignup.html', context=mydict)
 
 
+
+def aboutus(request):
+    return render(request,"aboutus.html")
+
 def afterlogin_view(request):
     if request.user.is_authenticated == False:
         if request.method == 'POST':
@@ -146,10 +150,10 @@ def is_patient(user):
 @user_passes_test(is_patient)
 def patient_dashboard(request):
     mydict = {}
-    user = models.User.objects.get(pk=request.user.pk)
-    for i in models.Patient.objects.all():
-        if i.user.id == user.id:
-            mydict['user'] = i
+    user = models.Patient.objects.get(user_id=request.user.id)
+    # for i in models.Patient.objects.all():
+    #     if i.user.id == user.id:
+    mydict['user'] = user
     return render(request, 'patient_dashboard.html', context=mydict)
 
 

@@ -37,7 +37,10 @@ urlpatterns = [
     path('nursesignup', views.nurse_signup_view, name='nursesignup'),
 
     path('login', views.afterlogin_view, name='login'),
- 
+
+
+    path('aboutus', views.aboutus, name='aboutus'),
+
     path('nurse-dashboard', views.nurse_dashboard, name='nurse-dashboard'),
     path('admin-dashboard', views.admin_page, name='admin-dashboard'),
 

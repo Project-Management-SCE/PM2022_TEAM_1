@@ -40,6 +40,7 @@ urlpatterns = [
 
 
     path('aboutus', views.aboutus, name='aboutus'),
+    path('contactus', views.contactus, name='contactus'),
 
     path('nurse-dashboard', views.nurse_dashboard, name='nurse-dashboard'),
     path('admin-dashboard', views.admin_page, name='admin-dashboard'),

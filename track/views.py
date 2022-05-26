@@ -33,6 +33,18 @@ def nurseclick_view(request):
     return render(request, 'nurseclick.html')
 
 
+def nurse_feedback(request):
+    nurse = models.Nurse.objects.get(user_id=request.user.id)
+    feedback = forms.FeedbackForm()
+    if request.method == 'POST':
+        feedback = forms.FeedbackForm(request.POST)
+        if feedback.is_valid():
+            feedback.save()
+        else:
+            print("form is invalid")
+        return render(request, 'feedback_for_nurse.html', {'nurse': nurse})
+    return render(request, 'nurse_feedback.html', {'feedback': feedback, 'nurse': nurse})
+
 # for showing signup/login button for patient(by sumit)
 def patientclick_view(request):
     if request.user.is_authenticated:

@@ -183,6 +183,7 @@ def admin_view_report(request):
 @user_passes_test(is_nurse)
 def nurse_view_patient(request):
     patients = models.Patient.objects.all()
+    print(len(patients))
     return render(request, 'nurse_view_patients.html', {'patients': patients})
 
 
@@ -205,11 +206,10 @@ def admin_nurse_view(request):
 
 
 def upadateUrineSurgery(request, id):
-    for i in models.Patient.objects.all():
-        if i.id == id:
-            if request.method == 'POST':
-                i.Urine_surgery = request.POST['UrineSurgery']
-                i.save()
+    if request.method == 'POST':
+        user = models.Patient.objects.get(user_id=id)
+        user.Urine_surgery = request.POST['UrineSurgery']
+        user.save()
     return render(request, 'updateUrineSurgery.html')
 
 
@@ -283,11 +283,10 @@ def patient_feedback(request):
 
 @user_passes_test(is_nurse)
 def upadateECG(request, id):
-    for i in models.Patient.objects.all():
-        if i.id == id:
-            if request.method == 'POST':
-                i.ECG = request.POST['ECG']
-                i.save()
+    if request.method == 'POST':
+        user = models.Patient.objects.get(user_id=id)
+        user.ECG = request.POST['ECG']
+        user.save()
     return render(request, 'updateECG.html')
 
 
@@ -362,7 +361,7 @@ def profile(request):
 @user_passes_test(is_nurse)
 def updateBloodPressure(request, pk):
     if request.method == 'POST':
-        user = models.Patient.objects.get(user_id=pk)
+        user = models.Patient.objects.get(id=pk)
         user.Blood_Pressure = request.POST['BloodPressure']
         user.save()
     return render(request, 'updateBloodPressure.html')
@@ -370,12 +369,10 @@ def updateBloodPressure(request, pk):
 
 @user_passes_test(is_patient)
 def updateBloodPressurePatient(request, id):
-    user = models.User.objects.get(pk=id)
-    for i in models.Patient.objects.all():
-        if i.user.id == user.id:
-            if request.method == 'POST':
-                i.Blood_Pressure = request.POST['BloodPressure']
-                i.save()
+    if request.method == 'POST':
+        user = models.Patient.objects.get(user_id=id)
+        user.Blood_Pressure = request.POST['BloodPressure']
+        user.save()
     return render(request, 'updateBloodPressurePatient.html')
 
 @user_passes_test(is_nurse)
@@ -389,6 +386,7 @@ def updateCholesterol(request, id):
 
 @user_passes_test(is_nurse)
 def updateFats(request, id):
+    print(id)
     if request.method == 'POST':
         user = models.Patient.objects.get(user_id=id)
         user.Fats = request.POST['Fats']
@@ -552,12 +550,10 @@ def nurse_add_Record(request, id_nurse):
 
 
 def updateGlucose(request, id):
-    user = models.User.objects.get(pk=id)
-    for i in models.Patient.objects.all():
-        if str(i.user) == str(user.username):
-            if request.method == 'POST':
-                i.Glucose = request.POST['Glucose']
-                i.save()
+    if request.method == 'POST':
+        user = models.Patient.objects.get(user_id=id)
+        user.Glucose = request.POST['Glucose']
+        user.save()
     return render(request, 'updateGlucose.html')
 
 

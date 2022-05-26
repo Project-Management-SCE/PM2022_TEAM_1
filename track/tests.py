@@ -173,6 +173,18 @@ class FeedbackTest(unittest.TestCase):
         response = self.client.post(reverse('patient-feedback'), data=data, follow=True)
         self.assert_(response.status_code, 200)
 
+    @tag('unit-test')
+    def test_admin_feedbacks_access_url(self):
+        response = self.client.get('/admin-feedbacks')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_admin_feedbacks_access_template(self):
+        data = {'feedbackContent': 'content', }
+        response = self.client.post(reverse('admin-feedbacks'), data=data, follow=True)
+        self.assert_(response.status_code, 200)
+        self.assertTrue(response, 'admin_feedbacks.html')
+
 
 class addMedicationTest(unittest.TestCase):
     client = Client()
@@ -196,6 +208,26 @@ class addFoodTest(unittest.TestCase):
     def test_food_access_url(self):
         response = self.client.get('/nurse-add-food')
         self.assert_(response.status_code, 200)
+    @tag('unit-test')
+    def test_food_access_template(self):
+        response = self.client.get(('/nurse-add-food'))
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue(response, 'nurse_add_food.html')
+
+    @tag('integration-test')
+    def testAddFoodList(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('nurse-add-food'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+
 
 
 class viewFoodTest(unittest.TestCase):
@@ -204,6 +236,7 @@ class viewFoodTest(unittest.TestCase):
     def testFoodViewTemplate(self):
         response = self.client.get('/patient-view-food')
         self.assert_(response.status_code, 200)
+
 
 #
 # ################################ HAchathon UnitTest ###############################################
@@ -235,6 +268,165 @@ class NurseInsertTest(unittest.TestCase):
         self.assertNotEqual(response.status_code, 300)
         self.assertTrue(response, 'updateLiverFunction.html')
 
+class DashoardUsersTest(unittest.TestCase):
+    client = Client()
+
+    @tag('unit-test')
+    def test_AdminDashboard_access_url(self):
+        response = self.client.get('admin-dashboard')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_AdminDashboard_access_template(self):
+        response = self.client.get('admin-dashboard')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue(response, 'admin_dashboard.html')
+
+    @tag('integration-test')
+    def testAdminDashboard(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('admin-dashboard'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+
+    @tag('unit-test')
+    def test_PatientDashboard_access_url(self):
+        response = self.client.get('patient-dashboard')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_PatientDashboard_access_template(self):
+        response = self.client.get('patient-dashboard')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue(response, 'patient_dashboard.html')
+
+
+    @tag('integration-test')
+    def testPatientDashboard(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('patient-dashboard'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+
+
+    @tag('unit-test')
+    def test_NurseDashboard_access_url(self):
+        response = self.client.get('nurse-dashboard')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_NurseDashboard_access_template(self):
+        response = self.client.get('nurse-dashboard')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue(response, 'nurse_dashboard.html')
+
+
+    @tag('integration-test')
+    def testNurseDashboard(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('nurse-dashboard'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+
+
+class UpdateECGTest(unittest.TestCase):
+    client=Client()
+
+    @tag('unit-test')
+    def test_UpdateECG_access_url(self):
+        response = self.client.get('update-ECG')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_UpdateECG_access_template(self):
+        response = self.client.get('update-ECG')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue('updateECG.html')
+
+    @tag('integration-test')
+    def testUpdateECG(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('update-ECG'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+class UpdateInfoTest(unittest.TestCase):
+    client=Client()
+
+    @tag('unit-test')
+    def test_UpdateGlucose_access_url(self):
+        response = self.client.get('update-Glucose')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_UpdateGlucose_access_template(self):
+        response = self.client.get('update-Glucose')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue('updateGlucose.html')
+
+    @tag('integration-test')
+    def testUpdateGlucose(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('update-Glucose'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+    @tag('unit-test')
+    def test_BloodPressurePatient_access_url(self):
+        response = self.client.get('update-BloodPressurePatient')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_BloodPressurePatient_access_template(self):
+        response = self.client.get('update-BloodPressurePatient')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue('updateBloodPressurePatient.html')
+
+    @tag('integration-test')
+    def testBloodPressurePatient(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('update-BloodPressurePatient'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
 
 class NurseInsertInfoTest(unittest.TestCase):
     client = Client()
@@ -411,3 +603,119 @@ class PatientMapTest(unittest.TestCase):
         response = self.client.get(reverse('logout'), follow=True)
 
         self.assertEqual(response.status_code, 200)
+
+
+class NurseAddRecordTest(unittest.TestCase):
+    client=Client()
+    @tag('unit-test')
+    def test_record_access_url(self):
+        response = self.client.get('admin-nurse-reprot')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_record_access_template(self):
+        response = self.client.get('admin-nurse-reprot')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue('nurse_Record.html')
+
+    @tag('integration-test')
+    def testNurseAddRecord(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('admin-nurse-reprot'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+
+class UpdateUrineSurgeryTest(unittest.TestCase):
+    client=Client()
+    @tag('unit-test')
+    def test_UrineSurgery_access_url(self):
+        response = self.client.get('update-Urine-surgery')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_UrineSurgery_access_template(self):
+        response = self.client.get('update-Urine-surgery')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue('updateUrineSurgery.html')
+
+    @tag('integration-test')
+    def testUrineSurgery(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('update-Urine-surgery'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+
+class PatientMedicationList(unittest.TestCase):
+    client=Client()
+
+    @tag('unit-test')
+    def test_MedicationList_access_url(self):
+        response = self.client.get('show-medication-list')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_MedicationList_access_template(self):
+        response = self.client.get('show-medication-list')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue('show_medication_list.html')
+
+    @tag('integration-test')
+    def testMedicationList(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('show-medication-list'))
+        self.assert_(response.status_code, 200)
+
+        response = self.client.get(reverse('logout'), follow=True)
+
+        self.assertEqual(response.status_code, 200)
+
+
+
+
+class PatientUserProfile(unittest.TestCase):
+    client=Client()
+
+    @tag('unit-test')
+    def test_MedicationList_access_url(self):
+        response = self.client.get('users-profile')
+        self.assertNotEqual(response.status_code, 300)
+
+    @tag('unit-test')
+    def test_MedicationList_access_template(self):
+        response = self.client.get('users-profile')
+        self.assertNotEqual(response.status_code, 300)
+        self.assertTrue('profile.html')
+
+    @tag('integration-test')
+    def testMedicationList(self):
+        # accss view
+        response = self.client.get(('login'))
+        self.assertTrue(User.is_authenticated)
+
+        response = self.client.get(('users-profile'))
+        self.assert_(response.status_code, 200)
+
+
+
+
+
+
+
+

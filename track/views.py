@@ -35,15 +35,15 @@ def nurseclick_view(request):
 
 def nurse_feedback(request):
     nurse = models.Nurse.objects.get(user_id=request.user.id)
-    feedback = forms.FeedbackForm()
+    feedback = models.Feedback()
     if request.method == 'POST':
-        feedback = forms.FeedbackForm(request.POST)
-        if feedback.is_valid():
-            feedback.save()
-        else:
-            print("form is invalid")
+        feedback.message=request.POST["message"]
+        feedback.senderType = "nurse"
+        feedback.by = request.user
+        feedback.save()
         return render(request, 'feedback_for_nurse.html', {'nurse': nurse})
     return render(request, 'nurse_feedback.html', {'feedback': feedback, 'nurse': nurse})
+
 
 # for showing signup/login button for patient(by sumit)
 def patientclick_view(request):
@@ -109,31 +109,32 @@ def patient_signup_view(request):
     return render(request, 'patientsignup.html', context=mydict)
 
 
-
 def aboutus(request):
-    return render(request,"aboutus.html")
+    return render(request, "aboutus.html")
+
 
 def contactus(request):
-	if request.method == 'POST':
-		form = forms.ContactForm(request.POST)
-		if form.is_valid():
-			subject = "Website Inquiry" 
-			body = {
-			'first_name': form.cleaned_data['first_name'], 
-			'last_name': form.cleaned_data['last_name'], 
-			'email': form.cleaned_data['email_address'], 
-			'message':form.cleaned_data['message'], 
-			}
-			message = "\n".join(body.values())
+    if request.method == 'POST':
+        form = forms.ContactForm(request.POST)
+        if form.is_valid():
+            subject = "Website Inquiry"
+            body = {
+                'first_name': form.cleaned_data['first_name'],
+                'last_name': form.cleaned_data['last_name'],
+                'email': form.cleaned_data['email_address'],
+                'message': form.cleaned_data['message'],
+            }
+            message = "\n".join(body.values())
 
-			try:
-				send_mail(subject, message, 'test.doctor.team22@gmail.com', ['test.doctor.team22@gmail.com']) 
-			except BadHeaderError:
-				return HttpResponse('Invalid header found.')
-			return redirect ("home")
-      
-	form = forms.ContactForm()
-	return render(request, "contact.html", {'form':form})
+            try:
+                send_mail(subject, message, 'test.doctor.team22@gmail.com', ['test.doctor.team22@gmail.com'])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect("home")
+
+    form = forms.ContactForm()
+    return render(request, "contact.html", {'form': form})
+
 
 def afterlogin_view(request):
     if request.user.is_authenticated == False:
@@ -410,6 +411,7 @@ def updateBloodPressurePatient(request, id):
         user.save()
     return render(request, 'updateBloodPressurePatient.html')
 
+
 @user_passes_test(is_nurse)
 def updateCholesterol(request, id):
     if request.method == 'POST':
@@ -429,7 +431,6 @@ def updateFats(request, id):
     return render(request, 'updateFats.html')
 
 
-
 def updateLiverFunction(request, id):
     if request.method == 'POST':
         user = models.Patient.objects.get(user_id=id)
@@ -438,14 +439,13 @@ def updateLiverFunction(request, id):
     return render(request, 'updateLiverFunction.html')
 
 
-
-
 def updateKidneyFunction(request, id):
     if request.method == 'POST':
         user = models.Patient.objects.get(user_id=id)
         user.Kidney_function = request.POST['KidneyFunction']
         user.save()
     return render(request, 'updateKidneyFunction.html')
+
 
 @user_passes_test(is_patient)
 def patient_view_food(request):
@@ -458,13 +458,13 @@ def patient_view_food(request):
 @user_passes_test(is_patient)
 def show_food_list(request):
     context = None
-    lst=[]
+    lst = []
     if request.user.is_authenticated and not request.user.is_anonymous:
         userInfo = models.Patient.objects.get(user=request.user)
         food = models.FoodPatient.objects.filter(patient_id=userInfo.user_id)
         for i in food:
             for j in models.Food.objects.all():
-                if i.foodName==j.Name:
+                if i.foodName == j.Name:
                     lst.append(j)
         context = {'food': lst}
         print(userInfo.user)
@@ -636,6 +636,7 @@ def PatientAppointments(request):
     context = {}
     context['appointment'] = models.Appointment.objects.filter(patient_id=request.user.id)
     return render(request, 'MyAppointment.html', context)
+
 
 def adminAppointments(request):
     appointments = models.Appointment.objects.all()

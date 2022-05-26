@@ -52,14 +52,8 @@
   <form method="post" style="margin-left:200px;margin-right:200px;">
       {% csrf_token %}
 
-    <label for="by">Your Name</label>
-    {% render_field feedback.by class="form-control"  %}
-
     <label for="message">Message</label>
-    {% render_field feedback.message class="form-control"  %}
-
-    <label for="message">Message</label>
-    {% render_field feedback.senderType class="form-control"  %}
+    <input type="text" name="message" value="" required>
 
 
     <input type="submit" value="Send">

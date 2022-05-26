@@ -57,6 +57,8 @@ LOGIN_REDIRECT_URL ='/'
 
 LOGIN_URL = '/account/login/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

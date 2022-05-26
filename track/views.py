@@ -9,6 +9,7 @@ from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, authenticate
+from django.core.mail import send_mail, BadHeaderError
 
 from . import forms, models
 from django.shortcuts import get_object_or_404
@@ -99,6 +100,28 @@ def patient_signup_view(request):
 
 def aboutus(request):
     return render(request,"aboutus.html")
+
+def contactus(request):
+	if request.method == 'POST':
+		form = forms.ContactForm(request.POST)
+		if form.is_valid():
+			subject = "Website Inquiry" 
+			body = {
+			'first_name': form.cleaned_data['first_name'], 
+			'last_name': form.cleaned_data['last_name'], 
+			'email': form.cleaned_data['email_address'], 
+			'message':form.cleaned_data['message'], 
+			}
+			message = "\n".join(body.values())
+
+			try:
+				send_mail(subject, message, 'test.doctor.team22@gmail.com', ['test.doctor.team22@gmail.com']) 
+			except BadHeaderError:
+				return HttpResponse('Invalid header found.')
+			return redirect ("home")
+      
+	form = forms.ContactForm()
+	return render(request, "contact.html", {'form':form})
 
 def afterlogin_view(request):
     if request.user.is_authenticated == False:

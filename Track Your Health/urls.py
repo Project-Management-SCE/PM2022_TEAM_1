@@ -57,6 +57,7 @@ urlpatterns = [
     path('logout', views.logoutUser, name='logout'),
 
     path('patient-feedback', views.patient_feedback, name='patient-feedback'),
+    path('nurse-feedback', views.nurse_feedback, name='nurse-feedback'),
     path('admin-feedbacks', views.admin_feedbacks, name='admin-feedbacks'),
     path('nurse-message/<int:pk>', views.nurseMessage, name='nurse-message'),
     path('patient-replays', views.feedback_list, name='patient-replays'),

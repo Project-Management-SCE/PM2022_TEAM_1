@@ -34,6 +34,8 @@
           <th>Name</th>
           <th>Many in day</th>
           <th>mg</th>
+          <th>Date</th>
+          <th>Description</th>
         </tr>
       </thead>
       {% for m in medication %}
@@ -42,6 +44,8 @@
         <td> {{m.name}}</td>
         <td> {{m.numOftimes}}</td>
         <td> {{m.mg}}</td>
+        <td> {{m.expiratDate}}</td>
+        <td> {{m.Description}}</td>
 </div>
       </tr>
       {% endfor %}

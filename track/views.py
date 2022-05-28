@@ -506,6 +506,7 @@ def show_food_list(request):
                 if i.foodName == j.Name:
                     lst.append(j)
         context = {'food': lst}
+        print(lst)
         print(user_info.user)
     return render(request, 'show_food_list.html', context)
 
@@ -514,16 +515,13 @@ def show_food_list(request):
 def food_list(request, id_):
     """check the food that the patient is selected """
     patient = models.Patient.objects.get(user=request.user)
-    food = models.FoodPatient()
+    f = models.FoodPatient()
     for i in models.Food.objects.all():
         if i.Name == id_:
             print("TTTTrue")
             food = i
-            food.foodName = food.Name
-    check = patient.Cholesterol > food.max_Cholesterol or \
-            patient.Liver_function > food.max_Liver_function \
-            or patient.Kidney_function > food.max_Kidney_function or \
-            patient.Blood_Pressure > food.max_Blood_Pressure
+            f.foodName = food.Name
+    check = patient.Cholesterol > food.max_Cholesterol or patient.Liver_function > food.max_Liver_function or patient.Kidney_function > food.max_Kidney_function or patient.Blood_Pressure > food.max_Blood_Pressure
     if request.user.is_authenticated and not request.user.is_anonymous:
         if check is not True:
             messages.error(request, '\t')
@@ -531,9 +529,8 @@ def food_list(request, id_):
             print("True")
             user = models.Patient.objects.get(user=request.user)
             food.patient_id = user.user_id
-            food.patient_id = user.user_id
-            food.save()
-            # food.save()
+            f.patient_id = user.user_id
+            f.save()
             messages.success(request, '\t')
     else:
         redirect('')

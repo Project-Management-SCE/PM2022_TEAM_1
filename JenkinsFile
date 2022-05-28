@@ -50,6 +50,12 @@ pipeline {
 
 						sh "python -m coverage run --source 'track' manage.py test"
 						sh "python -m coverage report --fail-under=50"
+						sh "python -m coverage report track/tests.py"
+						sh "python -m coverage report track/models.py"
+						sh "python -m coverage report track/views.py"
+						sh "python -m coverage report track/forms.py"
+						sh "python -m coverage report track/apps.py"
+						sh "python -m coverage report track/admin.py"
 
 					}
 

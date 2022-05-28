@@ -22,19 +22,6 @@ class LogoutTest(unittest.TestCase):
         self.assertFalse(response.context["user"].is_authenticated)
 
 
-@tag("unit_test")
-class AdminUsersTest(unittest.TestCase):
-    """AdminUsersTest """
-    client = Client()
-
-    def set_up(self):
-        """set_up """
-        self.user = User.objects.create_user(username='username', email='email',
-                                             last_name='last_name',
-                                             first_name='first_name')
-        self.user.set_password('password')
-        self.user.save()
-
 
 #
 @tag("unit_test")

@@ -56,14 +56,10 @@
   <form method="post" style="margin-left:200px;margin-right:200px;">
       {% csrf_token %}
 
-    <label for="by">Your Name</label>
-    <input type="text" name="by" id="by" value="{{user.username}}" required>
 
     <label for="message">Message</label>
     <input type="text" name="message" id="message" value="" required>
 
-    <label for="senderType">senderType</label>
-    <input type="text" name="senderType" id="senderType" value="Nurse" required>
 
     <input type="submit" value="Send">
   </form>

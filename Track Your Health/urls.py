@@ -42,7 +42,7 @@ urlpatterns = [
     path('aboutus', views.aboutus, name='aboutus'),
     path('contactus', views.contactus, name='contactus'),
 
-    path('nurse-dashboard', views.nurse_dashboard, name='nurse-dashboard'),
+    path('nurse-dashboard', views.nurse_profile, name='nurse-dashboard'),
     path('admin-dashboard', views.admin_page, name='admin-dashboard'),
 
     path('adminlogin', LoginView.as_view(template_name='loginPage.html')),
@@ -72,6 +72,7 @@ urlpatterns = [
     path('bookappointment', views.book_appointment, name='bookappointment'),
 
     path('profile/', views.profile, name='users-profile'),
+    path('nurseprofile/', views.nurse_profile, name='nurseprofile'),
     path('update-BloodPressurePatient/<int:id_>', views.update_blood_pressure_patient, name='update-BloodPressurePatient'),
     path('update-BloodPressure/<int:id_>', views.update_blood_pressure, name='update-BloodPressure'),
     path('update-ECG/<int:id_>', views.update_ecg, name='update-ECG'),

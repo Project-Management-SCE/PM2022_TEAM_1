@@ -1,19 +1,25 @@
-<!DOCTYPE html>
+{% extends 'nurse_base.html' %}
 {% load static %}
-<html lang="en">
 
+{% block title %}Profile Page{% endblock title %}
 <head>
-  <meta charset="UTF-8">
+      <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<style media="screen">
+        a:link {
+      text-decoration: none;
+    }
 
+    h6 {
+      text-align: center;
+    }
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-  <link rel="stylesheet" href="{% static '/style.css' %}">
-
+    .row {
+      margin: 100px;
+    }
+</style>
+</head>
 
   <style media="screen">
     a:link {
@@ -270,78 +276,122 @@
       }
     }
 
-  </style>
+        * {
+    margin: 0;
+    padding: 0
+}
 
+body {
+    background-color: #000
+}
+
+.card {
+    width: 350px;
+    background-color: #efefef;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s
+}
+
+.image img {
+    transition: all 0.5s
+}
+
+.card:hover .image img {
+    transform: scale(1.5)
+}
+
+.btn {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%
+}
+
+.name {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.idd {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.idd1 {
+    font-size: 12px
+}
+
+.number {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.follow {
+    font-size: 12px;
+    font-weight: 500;
+    color: #444444
+}
+
+.btn1 {
+    height: 40px;
+    width: 150px;
+    border: none;
+    background-color: #000;
+    color: #aeaeae;
+    font-size: 15px
+}
+
+.text span {
+    font-size: 13px;
+    color: #545454;
+    font-weight: 500
+}
+
+.icons i {
+    font-size: 19px
+}
+
+hr .new1 {
+    border: 1px solid
+}
+
+.join {
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: bold
+}
+
+.date {
+    background-color: #ccc
+}
+  </style>
+<head>
+      <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<style media="screen">
+        a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .row {
+      margin: 100px;
+    }
+</style>
 </head>
 
-<body>
+{% block content %}
+<br><br><br><br><br><br><br>
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+    <div class="card p-4">
+        <div class=" image d-flex flex-column justify-content-center align-items-center"><img src="{% static  user.profile_pic.url %}" height="100" width="100" /></button> <span class="name mt-3">{{user.user}}</span>
 
-  <!-- partial:index.partial.html -->
-  <nav class="menu" tabindex="0">
-    <div class="smartphone-menu-trigger"></div>
-    <header class="avatar">
-    <br><br><br>
-      <img src="{% static user.profile_pic.url %}" />
-      <br><br>
-      <h6>Admin</h6>
-      <h2>{{request.user.username}}</h2>
-    </header>
-    <ul>
-      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="/admin-dashboard"><span>Dashboard</span></a> </li>
-        <li tabindex="0" > <a style="color:white; text-decoration:none;" href="/admin-nurse"><span>Nurse</span></a></li>
-      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="/admin-patient"><span>Patient</span></a></li>
-      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="/admin-feedbacks"><span>Feedbacks</span></a></li>
-            <li tabindex="0" > <a style="color:white; text-decoration:none;" href="adminAppointment"><span>Appointments</span></a></li>
-
-
-    </ul>
-  </nav>
-
-  <main>
-
-
-    <!-- nav start -->
-    <div class="bs-example">
-      <nav class="navbar navbar-expand-md  navbar-dark fixed-top" style="background:#337AB7;">
-        <a href="/admin-dashboard" class="navbar-brand">Track Your Health</a>
-        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-          <div class="navbar-nav" style=" margin-left: 90%;">
-
-            <a href="/logout" class="nav-item nav-link">Logout</a>
-          </div>
-        </div>
-      </nav>
     </div>
-    <!-- nav end -->
+</div>
 
 
-
-    <br><br>
-
-    <!-- content start-->
-    {% block content %}
-
-    {% endblock content %}
-    <!-- content end-->
-
-    <br><br><br><br>
-    <footer>
-
-      <br>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 col-sm-12">
-            <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-  </main>
-</body>
-
-</html>
+{% endblock content %}

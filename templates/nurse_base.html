@@ -279,17 +279,17 @@
     <div class="smartphone-menu-trigger"></div>
     <header class="avatar">
        <br><br>
-      <img src="{% static user.profile_pic.url %}" alt="Profile Pic" />
+      <img src="{% static  user.profile_pic.url %}" alt="Profile Pic" />
       <br><br>
       <h6>Nurse</h6>
-      <h2>{{request.user.first_name}}</h2>
+      <h2>{{request.user.username}}</h2>
     </header>
     <ul>
-      <li tabindex="0" class="icon-dashboard"> <a style="color:white; text-decoration:none;" href="/nurse-dashboard"><span>Dashboard</span></a> </li>
-      <li tabindex="0" class="icon-users"> <a style="color:white; text-decoration:none;" href="/nurse-patient"><span>Patient</span></a></li>
-      <li tabindex="0" class="icon-calendar"> <a style="color:white; text-decoration:none;" href="/nurse-feedback"><span>Feedback</span></a></li>
-      <li tabindex="0" class="icon-calendar"> <a style="color:white; text-decoration:none;" href="nurse-food"><span>Food</span></a></li>
-      <li tabindex="0" class="icon-calendar"> <a style="color:white; text-decoration:none;" href="{% url 'nurse-add-record' request.user.id  %}"><span>Report</span></a></li>
+      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="/nurse-dashboard"><span>Dashboard</span></a> </li>
+      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="/nurse-patient"><span>Patient</span></a></li>
+      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="/nurse-feedback"><span>Feedback</span></a></li>
+      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="nurse-food"><span>Food</span></a></li>
+      <li tabindex="0" > <a style="color:white; text-decoration:none;" href="{% url 'nurse-add-record' request.user.id  %}"><span>Report</span></a></li>
     </ul>
   </nav>
   <main>

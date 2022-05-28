@@ -42,7 +42,7 @@ def nurse_feedback(request):
         feedback.by = request.user
         feedback.save()
         return render(request, 'feedback_for_nurse.html', {'nurse': nurse})
-    return render(request, 'nurse_feedback.html', {'feedback': feedback, 'nurse': nurse})
+    return render(request, 'nurse_feedback.html', {'feedback': feedback, 'user': nurse})
 
 
 # for showing signup/login button for patient(by sumit)
@@ -199,7 +199,6 @@ def is_patient(user):
     return user.groups.filter(name='PATIENT').exists()
 
 
-
 @user_passes_test(is_patient)
 def patient_dashboard(request):
     """patient dashboard """
@@ -241,14 +240,20 @@ def admin_view_report(request):
 def nurse_view_patient(request):
     """nurse show all patients """
     patients = models.Patient.objects.all()
-    return render(request, 'nurse_view_patients.html', {'patients': patients})
+    dict = {}
+    dict['patients'] = patients
+    dict['user'] = models.Nurse.objects.get(user_id=request.user.id)
+    return render(request, 'nurse_view_patients.html', context=dict)
 
 
 @user_passes_test(is_nurse)
 def nurse_report_view(request):
     """nurse show all patients to write report"""
     patients = models.Patient.objects.all()
-    return render(request, 'nurse_report.html', {'patients': patients})
+    dict = {}
+    dict['patients'] = patients
+    dict['user'] = models.Nurse.objects.get(user_id=request.user.id)
+    return render(request, 'nurse_report.html', context=dict)
 
 
 def nurse_report(request, id_):
@@ -323,7 +328,9 @@ def admin_add_patient(request):
 @user_passes_test(is_nurse)
 def nurse_food(request):
     """nurse food options """
-    return render(request, 'nurse_food.html')
+    dict = {}
+    dict['user'] = models.Nurse.objects.get(user_id=request.user.id)
+    return render(request, 'nurse_food.html', context=dict)
 
 
 @user_passes_test(is_patient)
@@ -331,9 +338,9 @@ def patient_feedback(request):
     """patient send message to admin """
     if request.method == 'POST':
         feedback = models.Feedback()
-        feedback.name = request.POST['by']
+        feedback.by = request.user
         feedback.message = request.POST['message']
-        feedback.senderType = request.POST['senderType']
+        feedback.senderType = "Patient"
         feedback.sen_id = request.user.id
         feedback.save()
         # patient = models.Patient()
@@ -384,7 +391,7 @@ def nurse_message(request, id_):
         message = models.Feedback()
         message.by = request.user.username
         message.message = request.POST['message']
-        message.senderType = request.POST['senderType']
+        message.senderType = "Nurse"
         message.sen_id = request.user.id
         message.rec_id = patient.user_id
         message.save()
@@ -446,6 +453,11 @@ def update_blood_pressure_patient(request, id_):
         user.Blood_Pressure = request.POST['BloodPressure']
         user.save()
     return render(request, 'updateBloodPressurePatient.html')
+
+
+def nurse_profile(request):
+    user = models.Nurse.objects.get(user_id=request.user.id)
+    return render(request, 'nurseprofile.html', {'user': user})
 
 
 @user_passes_test(is_nurse)
@@ -541,7 +553,10 @@ def food_list(request, id_):
 def nurse_view_food(request):
     """nurse show food list """
     food = models.Food.objects.all()
-    return render(request, 'nurse_view_food.html', {'food': food})
+    dict = {}
+    dict['user'] = models.Nurse.objects.get(user_id=request.user.id)
+    dict['food'] = food
+    return render(request, 'nurse_view_food.html', context=dict)
 
 
 @user_passes_test(is_nurse)
@@ -568,6 +583,8 @@ def delete_food(id_):
 def nurse_add_food(request):
     """nurse add food to list """
     flag = False
+    dict = {}
+    dict['user'] = models.Nurse.objects.get(user_id=request.user.id)
     if request.method == 'POST':
         food = models.Food()
         for i in models.Food.objects.all():
@@ -587,7 +604,7 @@ def nurse_add_food(request):
             messages.error(request, "The role is already booked")
 
         return HttpResponseRedirect('nurse-dashboard')
-    return render(request, 'nurse_add_food.html')
+    return render(request, 'nurse_add_food.html', context=dict)
 
 
 # BSPM2022T1
@@ -612,21 +629,17 @@ def admin_add_medication(request, id_patient):
 @user_passes_test(is_nurse)
 def nurse_add_record(request, id_nurse):
     """nurse add record """
+    dict = {}
+    dict['patients'] = models.Patient.objects.all()
+    dict['user'] = models.Nurse.objects.get(user_id=request.user.id)
     if request.method == 'POST':
         record = models.Record()
         record.patientName = request.POST['patientName']
         record.body = request.POST['body']
         record.nurse_id = id_nurse
         record.save()
-        # patient = models.Patient.objects.get(id_patient)
-        # nurse = models.Nurse()
-        # for i in models.Nurse.objects.all():
-        #     if i.user.id == id_nurse:
-        #         print("Asdasdasd")
-        #         nurse = i
-        #         print(nurse)
         return render(request, 'nurse_Record.html')
-    return render(request, 'nurse_Record.html', context={'patients': models.Patient.objects.all()})
+    return render(request, 'nurse_Record.html', context=dict)
 
 
 def update_glucose(request, id_):

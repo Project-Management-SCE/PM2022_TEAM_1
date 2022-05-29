@@ -75,7 +75,7 @@ def nurse_signup_view(request):
     """nurse signup """
     user_form = forms.NurseUserForm()
     nurse_form = forms.NurseForm()
-    mydict = {'user_form': user_form, 'nurse_form': nurse_form}
+    mydict = {'userForm': user_form, 'nurseForm': nurse_form}
     if request.method == 'POST':
         user_form = forms.NurseUserForm(request.POST)
         nurse_form = forms.NurseForm(request.POST, request.FILES)

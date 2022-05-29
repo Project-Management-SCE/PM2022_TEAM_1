@@ -1,12 +1,10 @@
+"""models file """
 import random
-import uuid
 
 import django
 from django.contrib.auth.models import User
-from django.db import models
 from djongo import models
-from django.utils.timezone import now
-from datetime import datetime
+
 
 # Create your models here.
 
@@ -18,6 +16,7 @@ GENDER_CHOICES = (
 
 
 class Appointment(models.Model):
+    """Appointment Model"""
     patient_id = models.IntegerField(default=0)
     date = models.DateField(default=django.utils.timezone.now)
     name = models.CharField(default="unknown", max_length=30)
@@ -25,6 +24,7 @@ class Appointment(models.Model):
 
 
 class Food(models.Model):
+    """Food Model"""
     patient_id = models.IntegerField(default=0)
     Name = models.CharField(max_length=50)
     number = models.IntegerField(default=1)
@@ -36,12 +36,14 @@ class Food(models.Model):
 
 
 class FoodPatient(models.Model):
+    """FoodPatient Model"""
     patient_id = models.IntegerField(default=0)
     foodName = models.CharField(max_length=50)
 
 
 # BSPM2022T1
 class Medication(models.Model):
+    """Medication Model"""
     patient_id = models.IntegerField(default=0)
     name = models.CharField(max_length=255)
     numOftimes = models.PositiveIntegerField(default=0)
@@ -51,6 +53,7 @@ class Medication(models.Model):
 
 
 class Feedback(models.Model):
+    """Feedback Model"""
     sen_id = models.IntegerField(default=0)
     rec_id = models.IntegerField(default=0)
     date = models.DateField(auto_now=True)
@@ -61,6 +64,7 @@ class Feedback(models.Model):
 
 
 class Patient(models.Model):
+    """Patient Model"""
     id = models.IntegerField(default=random.randint(0,10000), primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=40)
@@ -68,7 +72,8 @@ class Patient(models.Model):
     age = models.IntegerField(default=15)
     symptoms = models.CharField(max_length=100, null=True)
     assignedDoctorId = models.PositiveIntegerField(null=True)
-    profile_pic = models.ImageField(upload_to='profile_pic/PatientProfilePic/', null=True, blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pic/PatientProfilePic/',
+                                    null=True, blank=True)
     admitDate = models.DateField(auto_now=True)
     status = models.BooleanField(default=False)
     Urine_surgery = models.CharField(max_length=1000, default='u')
@@ -80,43 +85,20 @@ class Patient(models.Model):
     Kidney_function = models.IntegerField(default=60)
     ECG = models.IntegerField(default=70)
 
-    @property
-    def get_name(self):
-        return self.user.first_name + " " + self.user.last_name
-
-    @property
-    def get_id(self):
-        return self.user.id
-
-    def __str__(self):
-        return self.user.first_name + " (" + self.symptoms + ")"
-
-    @property
-    def update(self, a):
-        self.Blood_Pressure = a
 
 
 class Record(models.Model):
+    """Record Model"""
     nurse_id = models.IntegerField(default=0)
     patientName = models.CharField(max_length=40)
     body = models.CharField(max_length=500)
 
 
 class Nurse(models.Model):
+    """Nurse Model"""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=40)
     mobile = models.CharField(max_length=20, null=True)
     department = models.CharField(max_length=50, default='Cardiologist')
     profile_pic = models.ImageField(upload_to='profile_pic/NurseProfilePic/', null=True, blank=True)
     status = models.BooleanField(default=False)
-
-    @property
-    def get_name(self):
-        return self.user.first_name + " " + self.user.last_name
-
-    @property
-    def get_id(self):
-        return self.user.id
-
-    def __str__(self):
-        return "{} ({})".format(self.user.first_name, self.department)

@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -27,6 +26,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+PROJECT_APPS = (
+    'track',
+)
 
 # Application definition
 
@@ -53,7 +55,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Track Your Health.urls'
 
-LOGIN_REDIRECT_URL ='/'
+LOGIN_REDIRECT_URL = '/'
 
 LOGIN_URL = '/account/login/'
 
@@ -77,7 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Track Your Health.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -106,7 +107,7 @@ DATABASES = {
         'USER': 'salem',
         'PASSWORD': '12345',
         'CLIENT': {
-           'host':  'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
+            'host': 'mongodb+srv://salem:12345@djangoproject.syzso.mongodb.net/djangodb?ssl=true&ssl_cert_reqs=CERT_NONE',
         }
 
     }
@@ -129,8 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-STATIC_DIR=os.path.join(BASE_DIR,'static')
-MEDIA_ROOT=os.path.join(BASE_DIR,'static')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -143,18 +144,16 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS=[
-STATIC_DIR,
- ]
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-

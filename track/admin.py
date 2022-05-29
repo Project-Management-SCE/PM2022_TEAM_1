@@ -1,3 +1,4 @@
+"""Admin File """
 from django.contrib import admin
 from .models import Nurse,Patient,Food,Medication,Record,Appointment,Feedback
 
